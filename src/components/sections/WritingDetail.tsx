@@ -58,14 +58,6 @@ export function WritingDetail({
           Back to Writing
         </Button>
 
-        {/* Hero Image */}
-        <div className="aspect-video overflow-hidden rounded-lg mb-8 shadow-lg">
-          <img
-            src={image}
-            alt={title}
-            className="w-full h-full object-cover"
-          />
-        </div>
 
         {/* Header */}
         <div className="mb-8">
@@ -109,17 +101,6 @@ export function WritingDetail({
             ))}
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="flex items-center gap-2">
-              <Heart className="w-4 h-4" />
-              Like
-            </Button>
-            <Button variant="outline" size="sm" className="flex items-center gap-2">
-              <Share2 className="w-4 h-4" />
-              Share
-            </Button>
-          </div>
         </div>
 
         {/* Content */}
@@ -135,62 +116,6 @@ export function WritingDetail({
           </div>
         </Card>
 
-        {/* Author Section */}
-        <div className="mt-12 p-6 bg-muted/50 rounded-lg">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center">
-              <span className="text-primary font-medium text-xl">AJS</span>
-            </div>
-            <div>
-              <h3 className="font-medium text-foreground mb-1">Abel</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                Writer, thinker, and gardener. I explore the intersections of technology, 
-                nature, and human experience through essays and poetry.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Related Writings Section */}
-        <div className="mt-12">
-          <h3 className="mb-6 text-foreground">More from Abel</h3>
-          <div className="grid gap-4 md:grid-cols-2">
-            <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
-              <div className="flex gap-3">
-                <div className="w-16 h-16 bg-muted rounded overflow-hidden flex-shrink-0">
-                  <img
-                    src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=100&h=100&fit=crop&auto=format"
-                    alt="Related writing"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex-1">
-                  <h4 className="font-medium text-foreground mb-1 text-sm">On Creative Consistency</h4>
-                  <p className="text-muted-foreground text-xs leading-relaxed">
-                    How I learned to nurture my creative practice like tending a garden...
-                  </p>
-                </div>
-              </div>
-            </Card>
-            <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
-              <div className="flex gap-3">
-                <div className="w-16 h-16 bg-muted rounded overflow-hidden flex-shrink-0">
-                  <img
-                    src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=100&h=100&fit=crop&auto=format"
-                    alt="Related writing"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex-1">
-                  <h4 className="font-medium text-foreground mb-1 text-sm">Roots in Stone</h4>
-                  <p className="text-muted-foreground text-xs leading-relaxed">
-                    A meditation on resilience and growth, inspired by trees...
-                  </p>
-                </div>
-              </div>
-            </Card>
-          </div>
-        </div>
       </div>
     </div>
   );

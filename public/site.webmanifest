@@ -1,0 +1,16 @@
+{
+  "name": "Abel's Garden",
+  "short_name": "Abel's Garden",
+  "description": "Abel's digital garden - a space for thoughts, ideas, books, and creative projects to grow and flourish.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "theme_color": "#7fb069",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/"
+} 

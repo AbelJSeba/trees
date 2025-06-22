@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Button } from '../ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
-import { Calendar, Clock, BookOpen, Feather } from 'lucide-react';
+import { Calendar, BookOpen, Feather } from 'lucide-react';
 import { WritingSectionProps } from '../../types';
+import { motion } from 'framer-motion';
 
 type FilterType = 'all' | 'essay' | 'poetry';
 
@@ -109,17 +109,20 @@ export function WritingSection({ title, description, items, emptyMessage, onItem
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <section className="py-20">
-        <div className="container px-4 md:px-6">
-          <div className="max-w-7xl mx-auto">
-            {/* Header */}
-            <div className="text-center mb-12">
-              <h1 className="mb-4 text-foreground">{title}</h1>
-              <p className="text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                {description}
-              </p>
-            </div>
+    <section className="min-h-screen py-20">
+      <div className="container px-4 md:px-6">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <motion.div 
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h1 className="text-4xl md:text-5xl font-medium text-accent">
+              Writing
+            </h1>
+          </motion.div>
 
             {/* Filter Tabs */}
             <div className="flex justify-center mb-12">
@@ -132,65 +135,75 @@ export function WritingSection({ title, description, items, emptyMessage, onItem
 
             {/* Content Grid */}
             {filteredItems.length > 0 ? (
-              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              <div className="space-y-8">
                 {filteredItems.map((item, index) => (
-                  <Card 
-                    key={item.id} 
-                    className="group overflow-hidden border-border hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-card cursor-pointer flex flex-col"
-                    onClick={() => onItemClick(item)}
-                    style={{
-                      animation: `fadeInUp 0.6s ease-out ${index * 100}ms forwards`
-                    }}
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
                   >
-                    <div className="aspect-video overflow-hidden">
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <CardHeader className="flex-grow">
-                      <div className="flex items-center justify-between mb-2">
-                        <Badge 
-                          variant="secondary" 
-                          className={`
-                            text-xs flex items-center gap-1
-                            ${item.type === 'poetry' 
-                              ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300' 
-                              : 'bg-[#7fb069]/10 text-[#5a8040] border-[#7fb069]/20'
-                            }
-                          `}
-                        >
-                          {item.type === 'poetry' ? <Feather className="w-3 h-3" /> : <BookOpen className="w-3 h-3" />}
-                          {item.type === 'poetry' ? 'Poetry' : 'Essay'}
-                        </Badge>
-                      </div>
-                      
-                      <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors">
-                        {item.title}
-                      </CardTitle>
-                      <CardDescription className="line-clamp-3 flex-grow">
-                        {item.description}
-                      </CardDescription>
-                    </CardHeader>
+                    <Card 
+                      className="group overflow-hidden border-border/50 hover:border-accent/30 hover:shadow-xl hover:shadow-accent/5 transition-all duration-300 bg-card/50 hover:bg-card cursor-pointer"
+                      onClick={() => onItemClick(item)}
+                    >
+                      <div className="flex gap-6 p-6">
+                        {/* Writing Image */}
+                        <div className="flex-shrink-0 overflow-hidden rounded-lg">
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            width={192}
+                            height={128}
+                            className="w-48 h-32 object-cover"
+                          />
+                        </div>
 
-                    <CardContent className="pt-0">
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                        <div className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
-                          <span>{item.date}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Clock className="w-4 h-4" />
-                          <span>{item.readTime}</span>
+                        {/* Writing Content */}
+                        <div className="flex-grow">
+                          {/* Title */}
+                          <h3 className="text-xl font-medium text-accent group-hover:opacity-80 transition-opacity duration-300 mb-2">
+                            {item.title}
+                          </h3>
+                          
+                          {/* Date */}
+                          <div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-3">
+                            <Calendar className="h-3.5 w-3.5" />
+                            <span>{item.date}</span>
+                          </div>
+
+                          {/* Description */}
+                          <p className="text-muted-foreground mb-4">
+                            {item.description}
+                          </p>
+
+                          {/* Bottom Row: Type Badge and Read Time */}
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              {/* Type Badge */}
+                              <Badge 
+                                variant="outline" 
+                                className="flex items-center gap-1.5 text-xs px-2.5 py-1 border-accent/30 bg-accent/5 text-accent"
+                              >
+                                {item.type === 'poetry' ? <Feather className="w-3 h-3" /> : <BookOpen className="w-3 h-3" />}
+                                {item.type === 'poetry' ? 'Poetry' : 'Essay'}
+                              </Badge>
+
+                              {/* Read Time */}
+                              <span className="text-sm text-muted-foreground">
+                                {item.readTime}
+                              </span>
+                            </div>
+
+                            {/* Read Link */}
+                            <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                              Read {item.type === 'poetry' ? 'poem' : 'essay'} →
+                            </span>
+                          </div>
                         </div>
                       </div>
-                      
-                      <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                        Read {item.type === 'poetry' ? 'Poem' : 'Essay'}
-                      </Button>
-                    </CardContent>
-                  </Card>
+                    </Card>
+                  </motion.div>
                 ))}
               </div>
             ) : (
@@ -206,22 +219,8 @@ export function WritingSection({ title, description, items, emptyMessage, onItem
                 </p>
               </div>
             )}
-          </div>
         </div>
-      </section>
-
-      <style>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
-    </div>
+      </div>
+    </section>
   );
 }

@@ -4,6 +4,7 @@ import { Hero } from './components/sections/Hero';
 import { About } from './components/sections/About';
 import { Projects } from './components/sections/Projects';
 import { ContentSection } from './components/sections/ContentSection';
+import { ReadingGarden } from './components/sections/ReadingGarden';
 import { WritingSection } from './components/sections/WritingSection';
 import { WritingDetail } from './components/sections/WritingDetail';
 import { Footer } from './components/sections/Footer';
@@ -21,6 +22,7 @@ export default function App() {
 
   const handleSectionChange = (section: string) => {
     setActiveSection(section as SectionType);
+    setSelectedWriting(null); // Clear selected writing when changing sections
   };
 
   const handleWritingItemClick = (item: WritingItem) => {
@@ -61,36 +63,32 @@ export default function App() {
         );
       case 'reading':
         return (
-          <div className="bg-background">
-            <ContentSection
-              title="My Reading Garden"
-              description="Here are my curated notes and insights from books, articles, and research that have shaped my thinking and continue to influence my growth. Each note represents a seed of wisdom I've gathered along my learning journey."
-              items={SAMPLE_READING_ITEMS}
-              emptyMessage="New reading notes are growing here. Check back soon for fresh insights from my latest discoveries!"
+          <ReadingGarden
+              title="Reading Garden"
+              description="Curated notes and insights from books, articles, and research. Each note represents knowledge gathered along the learning journey."
+            items={SAMPLE_READING_ITEMS}
+              emptyMessage="New reading notes are growing here. Check back soon for fresh insights!"
             />
-          </div>
         );
       case 'writing':
         return (
           <div className="bg-background">
             <WritingSection
-              title="My Writing"
-              description="These are my original thoughts, essays, and explorations on topics that fascinate me. Each piece is a seed of an idea that has grown into something I believe is worth sharing with the world."
+              title="Writing"
+              description="Original thoughts, essays, and explorations on various topics. Each piece represents an idea that has grown into something worth sharing."
               items={SAMPLE_WRITING_ITEMS}
-              emptyMessage="New writings are taking root. Check back soon for fresh perspectives from my mind!"
+              emptyMessage="New writings are taking root. Check back soon for fresh perspectives!"
               onItemClick={handleWritingItemClick}
             />
           </div>
         );
       case 'deep-dives':
         return (
-          <div className="bg-background">
-            <ContentSection
-              title="My Deep Dives"
-              description="These are my in-depth explorations and comprehensive analyses of complex topics that have captured my curiosity. These are the tall trees in my garden - substantial pieces that have grown over time through careful research and reflection."
-              items={SAMPLE_DEEP_DIVE_ITEMS}
-              emptyMessage="Deep explorations are growing here. Check back soon for my comprehensive analyses of fascinating topics!"
-            />
+          <div className="bg-background min-h-screen flex items-center justify-center">
+            <div className="text-center">
+              <h1 className="text-4xl md:text-5xl font-medium text-accent mb-4">Deep Dives</h1>
+              <p className="text-muted-foreground">Being updated</p>
+            </div>
           </div>
         );
       default:

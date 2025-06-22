@@ -10,6 +10,11 @@ export interface BaseContentItem {
 
 export interface ReadingItem extends BaseContentItem {
   tags: string[];
+  author: string;
+  rating: number;
+  coverImage: string;
+  spineColor: string;
+  textColor: string;
 }
 
 export interface WritingItem extends BaseContentItem {

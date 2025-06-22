@@ -23,7 +23,7 @@ export function Hero({ onSectionChange }: HeroProps) {
                   Gardener
                 </Badge>
                 <h1 className="text-3xl tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                  Hi, I'm <span className="text-accent">Abel</span> this is my garden
+                  Hi, I'm <span className="text-accent">Abel</span> welcome to my garden
                 </h1>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
                   Welcome to my garden where my thoughts bloom, ideas take root, and knowledge grows organically. 
