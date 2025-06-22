@@ -1,7 +1,7 @@
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Card } from '../ui/card';
-import { ArrowLeft, Calendar, Clock, BookOpen, Feather, Share2, Heart } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, BookOpen, Feather } from 'lucide-react';
 
 interface WritingDetailProps {
   id: string;
@@ -22,7 +22,6 @@ export function WritingDetail({
   date, 
   readTime, 
   tags, 
-  image, 
   type, 
   content, 
   onBack 

@@ -285,3 +285,17 @@
 html {
   font-size: var(--font-size);
 }
+
+/* Beam animation for research cards */
+@keyframes beam-draw {
+  0% { 
+    stroke-dashoffset: 400; 
+  }
+  100% { 
+    stroke-dashoffset: 0; 
+  }
+}
+
+.animate-beam-draw {
+  animation: beam-draw 2s ease-in-out;
+}

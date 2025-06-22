@@ -1,6 +1,6 @@
 import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
-import { Calendar, ExternalLink, Github, Globe, Sprout, TreePine, Leaf } from 'lucide-react';
+import { Calendar, Github, Globe, Sprout, TreePine, Leaf } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface Project {

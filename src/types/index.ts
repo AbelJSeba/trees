@@ -23,7 +23,7 @@ export interface WritingItem extends BaseContentItem {
   tags?: string[];
 }
 
-export interface DeepDiveItem extends BaseContentItem {
+export interface ResearchItem extends BaseContentItem {
   tags: string[];
 }
 
@@ -31,7 +31,7 @@ export interface DeepDiveItem extends BaseContentItem {
 export interface ContentSectionProps {
   title: string;
   description: string;
-  items: ReadingItem[] | DeepDiveItem[];
+  items: ReadingItem[] | ResearchItem[];
   emptyMessage: string;
 }
 
@@ -58,7 +58,7 @@ export interface HeroProps {
 }
 
 // Navigation Types
-export type SectionType = 'home' | 'about' | 'projects' | 'reading' | 'writing' | 'deep-dives';
+export type SectionType = 'home' | 'about' | 'projects' | 'reading' | 'writing' | 'research';
 
 export interface NavItem {
   id: SectionType;

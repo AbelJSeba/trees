@@ -15,7 +15,7 @@ export function Header({ activeSection, onSectionChange }: HeaderProps) {
     { id: 'projects', label: 'Projects' },
     { id: 'reading', label: 'Reading' },
     { id: 'writing', label: 'Writing' },
-    { id: 'deep-dives', label: 'Deep Dives' },
+    { id: 'research', label: 'Research' },
   ];
 
   return (

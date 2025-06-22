@@ -1,4 +1,4 @@
-import { ReadingItem, WritingItem, DeepDiveItem, NavItem } from '../types';
+import { ReadingItem, WritingItem, ResearchItem, NavItem } from '../types';
 import { BOOKS } from '../data/books';
 
 // Navigation Items
@@ -8,7 +8,7 @@ export const NAV_ITEMS: NavItem[] = [
   { id: 'projects', label: 'Projects', href: '#projects' },
   { id: 'reading', label: 'Reading', href: '#reading' },
   { id: 'writing', label: 'Writing', href: '#writing' },
-  { id: 'deep-dives', label: 'Deep Dives', href: '#deep-dives' },
+  { id: 'research', label: 'Research', href: '#research' },
 ];
 
 // Reading Items - Imported from data file
@@ -78,15 +78,15 @@ replace with your own creative writing.`
   }
 ];
 
-// Sample Deep Dive Items
-export const SAMPLE_DEEP_DIVE_ITEMS: DeepDiveItem[] = [
+// Sample Research Items
+export const SAMPLE_RESEARCH_ITEMS: ResearchItem[] = [
   {
     id: '1',
-    title: 'The Science of Plant Intelligence',
-    description: 'My comprehensive exploration of how plants communicate, adapt, and exhibit intelligent behavior without a central nervous system.',
-    date: 'Jan 2025',
-    readTime: '20 min read',
-    tags: ['botany', 'science', 'nature', 'intelligence'],
+    title: 'Automated workload mapping for heterogeneous SoCs using IR vector similarity',
+    description: 'Currently working on independent research exploring novel approaches to workload mapping in heterogeneous System-on-Chip architectures using intermediate representation vector similarity analysis.',
+    date: 'In Progress',
+    readTime: 'Research paper incoming',
+    tags: [],
     image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=250&fit=crop&auto=format'
   }
 ]; 

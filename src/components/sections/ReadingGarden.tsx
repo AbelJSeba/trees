@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { ReadingItem } from '../../types';
 import { Bookshelf } from './Bookshelf';
-import { BookDetail } from './BookDetail';
 
 interface ReadingGardenProps {
   title: string;
@@ -26,7 +25,11 @@ export function ReadingGarden({ title, description, items, emptyMessage }: Readi
       <section className="py-20">
         <div className="container px-4 md:px-6">
           <div className="max-w-7xl mx-auto">
-
+            {/* Header */}
+            <div className="text-center mb-12">
+              <h1 className="text-4xl md:text-5xl font-medium text-accent mb-4">{title}</h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{description}</p>
+            </div>
 
             {/* Bookshelf */}
             {items.length > 0 ? (

@@ -1,19 +1,8 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
-import { Separator } from '../ui/separator';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { 
-  MapPin, 
-  Calendar, 
-  Coffee, 
   BookOpen, 
-  Code, 
   TreePine, 
-  Lightbulb,
-  Heart,
-  Github,
-  Twitter,
-  Mail
+  Heart
 } from 'lucide-react';
 
 export function About() {
@@ -25,7 +14,7 @@ export function About() {
           <div className="max-w-7xl mx-auto">
             {/* Header */}
             <div className="text-center mb-12">
-              <h1 className="mb-4 text-4xl md:text-5xl font-medium text-accent">About</h1>
+              <h1 className="mb-4 text-4xl md:text-5xl font-medium text-accent">Abel like the Bible</h1>
             </div>
 
             {/* Main Content */}

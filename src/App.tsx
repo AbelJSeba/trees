@@ -3,17 +3,17 @@ import { Header } from './components/sections/Header';
 import { Hero } from './components/sections/Hero';
 import { About } from './components/sections/About';
 import { Projects } from './components/sections/Projects';
-import { ContentSection } from './components/sections/ContentSection';
 import { ReadingGarden } from './components/sections/ReadingGarden';
 import { WritingSection } from './components/sections/WritingSection';
 import { WritingDetail } from './components/sections/WritingDetail';
+import { ResearchSection } from './components/sections/ResearchSection';
 import { Footer } from './components/sections/Footer';
 
 import { SectionType, WritingItem } from './types';
 import { 
   SAMPLE_READING_ITEMS, 
   SAMPLE_WRITING_ITEMS, 
-  SAMPLE_DEEP_DIVE_ITEMS 
+  SAMPLE_RESEARCH_ITEMS 
 } from './lib/constants';
 
 export default function App() {
@@ -82,13 +82,15 @@ export default function App() {
             />
           </div>
         );
-      case 'deep-dives':
+      case 'research':
         return (
-          <div className="bg-background min-h-screen flex items-center justify-center">
-            <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-medium text-accent mb-4">Deep Dives</h1>
-              <p className="text-muted-foreground">Being updated</p>
-            </div>
+          <div className="bg-background">
+            <ResearchSection
+              title="Research"
+              description="My view on research has changed and I've started doing independent research myself."
+              items={SAMPLE_RESEARCH_ITEMS}
+              emptyMessage="New research projects are taking shape. Check back soon for deep insights!"
+            />
           </div>
         );
       default:

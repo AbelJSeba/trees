@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ScrollytellingTree } from './ScrollytellingTree';
-import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Sprout, BookOpen, PenTool, Microscope, Code, User } from 'lucide-react';
@@ -156,7 +154,7 @@ export function Hero({ onSectionChange }: HeroProps) {
               >
                 <Card 
                   className="group relative overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-teal-500/20 hover:-translate-y-1 border-0 bg-gradient-to-br from-teal-50/40 via-white to-emerald-50/30"
-                  onClick={() => onSectionChange('deep-dives')}
+                  onClick={() => onSectionChange('research')}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-teal-100/25 via-transparent to-emerald-100/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="relative p-6">
