@@ -1,0 +1,287 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-size: 14px;
+  --background: #fafbfa;
+  --foreground: #1a2e1a;
+  --card: #ffffff;
+  --card-foreground: #1a2e1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a2e1a;
+  --primary: #2d5a2d;
+  --primary-foreground: #ffffff;
+  --secondary: #f0f5f0;
+  --secondary-foreground: #2d5a2d;
+  --muted: #e8f0e8;
+  --muted-foreground: #6b8068;
+  --accent: #7fb069;
+  --accent-foreground: #ffffff;
+  --destructive: #d4183d;
+  --destructive-foreground: #ffffff;
+  --border: rgba(45, 90, 45, 0.1);
+  --input: transparent;
+  --input-background: #f0f5f0;
+  --switch-background: #cbced4;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: #7fb069;
+  --chart-1: #7fb069;
+  --chart-2: #9fc784;
+  --chart-3: #6a994e;
+  --chart-4: #a7c957;
+  --chart-5: #386641;
+  --radius: 0.625rem;
+  --sidebar: #f8fdf8;
+  --sidebar-foreground: #1a2e1a;
+  --sidebar-primary: #2d5a2d;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f0f5f0;
+  --sidebar-accent-foreground: #2d5a2d;
+  --sidebar-border: rgba(45, 90, 45, 0.1);
+  --sidebar-ring: #7fb069;
+}
+
+.dark {
+  --background: #0f1b0f;
+  --foreground: #e8f0e8;
+  --card: #1a2e1a;
+  --card-foreground: #e8f0e8;
+  --popover: #1a2e1a;
+  --popover-foreground: #e8f0e8;
+  --primary: #7fb069;
+  --primary-foreground: #0f1b0f;
+  --secondary: #2d5a2d;
+  --secondary-foreground: #e8f0e8;
+  --muted: #2d5a2d;
+  --muted-foreground: #9fc784;
+  --accent: #6a994e;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: rgba(127, 176, 105, 0.2);
+  --input: rgba(127, 176, 105, 0.2);
+  --ring: #7fb069;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --chart-1: #7fb069;
+  --chart-2: #9fc784;
+  --chart-3: #6a994e;
+  --chart-4: #a7c957;
+  --chart-5: #386641;
+  --sidebar: #1a2e1a;
+  --sidebar-foreground: #e8f0e8;
+  --sidebar-primary: #7fb069;
+  --sidebar-primary-foreground: #0f1b0f;
+  --sidebar-accent: #2d5a2d;
+  --sidebar-accent-foreground: #e8f0e8;
+  --sidebar-border: rgba(127, 176, 105, 0.2);
+  --sidebar-ring: #7fb069;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Smooth scrolling for better scrollytelling experience */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Ensure smooth scroll performance */
+  * {
+    scroll-behavior: smooth;
+  }
+}
+
+/**
+ * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
+ */
+@layer base {
+  :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
+    h1 {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h2 {
+      font-size: var(--text-xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h3 {
+      font-size: var(--text-lg);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h4 {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    p {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+
+    label {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    button {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    input {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+  }
+}
+
+/* Scrollytelling specific styles */
+@layer components {
+  .scrollytelling-container {
+    /* Ensure proper layering for sticky elements */
+    z-index: 1;
+  }
+
+  .scrollytelling-image {
+    /* Optimize for smooth transforms */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+  }
+
+  /* Line clamp utilities for consistent text truncation */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Social icon brand hover effects */
+  .social-icon-twitter,
+  .social-icon-github,
+  .social-icon-linkedin {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .social-icon-twitter svg,
+  .social-icon-github svg,
+  .social-icon-linkedin svg {
+    @apply transition-colors duration-300 ease-out;
+  }
+
+  /* X/Twitter - Blue background with white icon */
+  .social-icon-twitter:hover {
+    background-color: #1da1f2 !important;
+    @apply scale-110;
+  }
+  
+  .social-icon-twitter:hover svg {
+    color: #ffffff !important;
+  }
+  
+  /* GitHub - Black background with white icon */
+  .social-icon-github:hover {
+    background-color: #24292e !important;
+    @apply scale-110;
+  }
+  
+  .social-icon-github:hover svg {
+    color: #ffffff !important;
+  }
+  
+  /* LinkedIn - LinkedIn blue background with white icon */
+  .social-icon-linkedin:hover {
+    background-color: #0077b5 !important;
+    @apply scale-110;
+  }
+  
+  .social-icon-linkedin:hover svg {
+    color: #ffffff !important;
+  }
+  
+  /* Dark mode adjustments */
+  .dark .social-icon-github:hover {
+    background-color: #24292e !important;
+  }
+  
+  .dark .social-icon-linkedin:hover {
+    background-color: #0077b5 !important;
+  }
+}
+
+html {
+  font-size: var(--font-size);
+}
