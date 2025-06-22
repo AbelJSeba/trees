@@ -2,7 +2,7 @@
 
 A beautiful, modern digital garden built with React, TypeScript, and Tailwind CSS. This project serves as a personal knowledge management system and creative writing platform.
 
-## 🌱 Project Structure
+## Project Structure
 
 ```
 src/
@@ -43,7 +43,7 @@ src/
 └── main.tsx                   # Application entry point
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -78,7 +78,7 @@ src/
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
 
-## 🏗️ Architecture
+## Architecture
 
 ### Component Organization
 
@@ -100,7 +100,7 @@ All components are fully typed with TypeScript. Key interfaces include:
 - **CSS Variables** for theming (light/dark modes)
 - **Responsive Design** with mobile-first approach
 
-## 🎨 Design System
+## Design System
 
 ### Colors
 - Primary: Forest green palette
@@ -117,7 +117,7 @@ All components are fully typed with TypeScript. Key interfaces include:
 - Rounded corners (10px radius)
 - Smooth transitions and hover effects
 
-## 📱 Features
+## Features
 
 - **Digital Garden** - Non-chronological content organization
 - **Writing Sections** - Essays, poetry, and creative writing
@@ -127,7 +127,7 @@ All components are fully typed with TypeScript. Key interfaces include:
 - **Dark Mode** - Comfortable reading in any lighting
 - **Smooth Animations** - Enhanced user experience
 
-## 🔧 Customization
+## Customization
 
 ### Adding New Content
 
@@ -148,7 +148,7 @@ All components are fully typed with TypeScript. Key interfaces include:
 3. Update navigation in `Header.tsx`
 4. Add to `SectionType` in `src/types/index.ts`
 
-## 🛠️ Development
+## Development
 
 ### Code Style
 
@@ -165,7 +165,7 @@ All components are fully typed with TypeScript. Key interfaces include:
 - Efficient re-renders with proper dependencies
 - Optimized bundle size
 
-## 📦 Dependencies
+## Dependencies
 
 ### Core
 - **React 18** - UI library
@@ -182,7 +182,7 @@ All components are fully typed with TypeScript. Key interfaces include:
 - **clsx** - Conditional class names
 - **tailwind-merge** - Merge Tailwind classes
 
-## 🌟 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -190,16 +190,6 @@ All components are fully typed with TypeScript. Key interfaces include:
 4. Add tests if applicable
 5. Submit a pull request
 
-## 📄 License
+## License
 
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-## 🌳 Philosophy
-
-This digital garden represents a different approach to content creation and knowledge sharing. Unlike traditional blogs with chronological posts, this space allows ideas to grow organically, connecting and evolving over time.
-
-Every piece of content is a seed that can be nurtured, pruned, and expanded. The goal is not perfection, but growth and connection.
-
-**Happy gardening! 🌱** 
+This project is open source and available under the [MIT License](LICENSE). 
