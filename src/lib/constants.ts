@@ -42,7 +42,6 @@ export const SAMPLE_WRITING_ITEMS: WritingItem[] = [
     readTime: '6 min read',
     image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=250&fit=crop&auto=format',
     type: 'essay' as const,
-    tags: ['digital-garden', 'blogging', 'knowledge-management'],
     content: `In our hyperconnected digital age, I've found myself drowning in bookmarks, scattered notes, and half-formed thoughts spread across a dozen different apps. The traditional blog format, with its chronological posts and pressure for polished content, never felt quite right for how my mind actually works.
 
 That's when I discovered the concept of digital gardens—a more organic, interconnected way of sharing knowledge that mirrors how thoughts actually grow and evolve over time.
@@ -89,7 +88,6 @@ The seeds you plant today might become the wisdom you share tomorrow. And in the
     readTime: '9 min read',
     image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=250&fit=crop&auto=format',
     type: 'essay' as const,
-    tags: ['thinking', 'philosophy', 'mindfulness'],
     content: `In a world that rewards quick responses and instant solutions, I've become an advocate for something increasingly rare: slow thinking. This isn't about being inefficient or indecisive. It's about recognizing that our best insights often emerge not from the speed of our reactions, but from the depth of our reflection.
 
 The modern workplace celebrates rapid decision-making, immediate responses to emails, and the ability to multitask across dozens of priorities. But in my experience, this pace often leads to surface-level solutions and missed opportunities for genuine innovation.
@@ -142,7 +140,6 @@ In our accelerated world, perhaps the most radical act is simply taking time to 
     readTime: '3 min read',
     image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=250&fit=crop&auto=format',
     type: 'poetry' as const,
-    tags: ['poetry', 'life', 'nature'],
     content: `Todos somos frutos de la Vida,
 todo fruto viene de una semilla,
 en la semilla está la vida.

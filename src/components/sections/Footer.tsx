@@ -9,8 +9,8 @@ export function Footer() {
           <div className="flex items-center space-x-2">
             <Leaf className="h-5 w-5 text-accent" />
             <div className="flex flex-col">
-              <span className="text-sm">Abel J.S</span>
-              <span className="text-xs text-muted-foreground">Digital Garden</span>
+              <span className="text-sm">Abel's</span>
+              <span className="text-xs text-muted-foreground">Garden</span>
             </div>
           </div>
           
@@ -29,7 +29,7 @@ export function Footer() {
                 href="https://twitter.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                aria-label="Follow Abel J.S on X/Twitter"
+                aria-label="Follow Abel on X/Twitter"
               >
                 <Twitter className="h-4 w-4" />
               </a>
@@ -39,7 +39,7 @@ export function Footer() {
                 href="https://github.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                aria-label="View Abel J.S GitHub profile"
+                aria-label="View Abel GitHub profile"
               >
                 <Github className="h-4 w-4" />
               </a>
@@ -49,7 +49,7 @@ export function Footer() {
                 href="https://linkedin.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                aria-label="Connect with Abel J.S on LinkedIn"
+                aria-label="Connect with Abel on LinkedIn"
               >
                 <Linkedin className="h-4 w-4" />
               </a>

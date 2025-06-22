@@ -142,9 +142,9 @@ export function WritingDetail({
               <span className="text-primary font-medium text-xl">AJS</span>
             </div>
             <div>
-              <h3 className="font-medium text-foreground mb-1">Abel J.S</h3>
+              <h3 className="font-medium text-foreground mb-1">Abel</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                Writer, thinker, and digital gardener. I explore the intersections of technology, 
+                Writer, thinker, and gardener. I explore the intersections of technology, 
                 nature, and human experience through essays and poetry.
               </p>
             </div>
@@ -153,7 +153,7 @@ export function WritingDetail({
 
         {/* Related Writings Section */}
         <div className="mt-12">
-          <h3 className="mb-6 text-foreground">More from Abel J.S</h3>
+          <h3 className="mb-6 text-foreground">More from Abel</h3>
           <div className="grid gap-4 md:grid-cols-2">
             <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
               <div className="flex gap-3">

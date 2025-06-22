@@ -20,9 +20,9 @@ interface Project {
 const sampleProjects: Project[] = [
   {
     id: '1',
-    title: 'Digital Garden Platform',
-    description: 'A modern platform for building and maintaining digital gardens with plant-inspired design.',
-    longDescription: 'Built with React, TypeScript, and Tailwind CSS, this platform helps writers and thinkers create their own digital gardens. Features include markdown support, tag-based organization, and responsive design that grows with your content.',
+    title: 'Garden Platform',
+    description: 'A modern platform for building and maintaining gardens with plant-inspired design.',
+    longDescription: 'Built with React, TypeScript, and Tailwind CSS, this platform helps writers and thinkers create their own gardens. Features include markdown support, tag-based organization, and responsive design that grows with your content.',
     date: 'Jan 2025',
     status: 'completed',
     technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],

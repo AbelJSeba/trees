@@ -18,7 +18,7 @@ import {
 
 export function About() {
   const skills = [
-    'Digital Gardening', 'Creative Writing', 'Poetry', 'Deep Thinking', 
+    'Gardening', 'Creative Writing', 'Poetry', 'Deep Thinking', 
     'Knowledge Management', 'Philosophy', 'Nature Photography', 'Web Development'
   ];
 
@@ -38,7 +38,7 @@ export function About() {
             <div className="text-center mb-12">
               <h1 className="mb-4 text-foreground">About Me</h1>
               <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                Welcome to my corner of the digital world. I'm Abel J.S, and this is where I cultivate ideas, 
+                Welcome to my corner of the digital world. I'm Abel, and this is where I cultivate ideas, 
                 nurture knowledge, and share the fruits of my intellectual journey.
               </p>
             </div>
@@ -52,8 +52,8 @@ export function About() {
                     <div className="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-accent/20 to-secondary/50 rounded-full flex items-center justify-center">
                       <span className="text-4xl font-medium text-primary">AJS</span>
                     </div>
-                    <h2 className="text-foreground mb-2">Abel J.S</h2>
-                    <p className="text-muted-foreground text-sm mb-4">Digital Gardener & Creative Thinker</p>
+                    <h2 className="text-foreground mb-2">Abel</h2>
+                    <p className="text-muted-foreground text-sm mb-4">Gardener & Creative Thinker</p>
                     
                     <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mb-4">
                       <MapPin className="w-4 h-4" />
@@ -78,7 +78,7 @@ export function About() {
                     <div>
                       <h3 className="text-sm font-medium text-foreground mb-2">Current Focus</h3>
                       <p className="text-sm text-muted-foreground">
-                        Building this digital garden and exploring the intersection of technology, 
+                        Building this garden and exploring the intersection of technology, 
                         nature, and human consciousness.
                       </p>
                     </div>
@@ -107,7 +107,7 @@ export function About() {
                   </CardHeader>
                   <CardContent className="p-0 space-y-4 text-muted-foreground leading-relaxed">
                     <p>
-                      I'm a digital gardener who believes in the power of slow thinking and deep reflection. 
+                      I'm a gardener who believes in the power of slow thinking and deep reflection. 
                       My journey began with a simple observation: the best ideas, like the strongest trees, 
                       need time and the right conditions to grow.
                     </p>
@@ -117,12 +117,12 @@ export function About() {
                       research, pruning them through reflection, and allowing them to grow naturally over time.
                     </p>
                     <p>
-                      This digital garden is where I share the fruits of that cultivation: essays that have 
+                      This garden is where I share the fruits of that cultivation: essays that have 
                       ripened through months of thinking, poetry that bloomed from quiet observation, and 
                       insights that emerged from the intersection of different disciplines and experiences.
                     </p>
                     <p>
-                      When I'm not tending to my digital garden, you'll find me walking among real trees, 
+                      When I'm not tending to my garden, you'll find me walking among real trees, 
                       reading books that challenge my thinking, or exploring how technology can support 
                       more thoughtful, intentional ways of living.
                     </p>
@@ -187,7 +187,7 @@ export function About() {
                       trusting that the seeds of wisdom planted today will flourish into knowledge 
                       that serves tomorrow."
                     </blockquote>
-                    <p className="text-sm text-muted-foreground mt-4 text-right">— Abel J.S</p>
+                    <p className="text-sm text-muted-foreground mt-4 text-right">— Abel</p>
                   </CardContent>
                 </Card>
 
@@ -201,7 +201,7 @@ export function About() {
                   </CardHeader>
                   <CardContent className="p-0">
                     <p className="text-muted-foreground mb-4 leading-relaxed">
-                      Whether you're fellow digital gardener, a curious reader, or someone who shares 
+                      Whether you're fellow gardener, a curious reader, or someone who shares 
                       a passion for slow thinking and deep learning, I'd love to connect. Feel free to 
                       reach out if something in my garden resonates with you.
                     </p>

@@ -15,7 +15,7 @@ export interface ReadingItem extends BaseContentItem {
 export interface WritingItem extends BaseContentItem {
   type: 'essay' | 'poetry';
   content: string;
-  tags: string[];
+  tags?: string[];
 }
 
 export interface DeepDiveItem extends BaseContentItem {
@@ -38,8 +38,9 @@ export interface WritingSectionProps {
   onItemClick: (item: WritingItem) => void;
 }
 
-export interface WritingDetailProps extends WritingItem {
+export interface WritingDetailProps extends Omit<WritingItem, 'tags'> {
   onBack: () => void;
+  tags: string[];
 }
 
 export interface HeaderProps {

@@ -20,32 +20,31 @@ export function Hero({ onSectionChange }: HeroProps) {
               <div className="space-y-2">
                 <Badge variant="secondary" className="mb-4">
                   <Sprout className="mr-2 h-3 w-3" />
-                  Digital Gardener
+                  Gardener
                 </Badge>
                 <h1 className="text-3xl tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                  Hi, I'm <span className="text-accent">Abel J.S</span> this is my digital garden
+                  Hi, I'm <span className="text-accent">Abel</span> this is my garden
                 </h1>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                  Welcome to my digital garden where my thoughts bloom, ideas take root, and knowledge grows organically. 
+                  Welcome to my garden where my thoughts bloom, ideas take root, and knowledge grows organically. 
                   Explore my writing, reading notes, and deep dives into the topics that fascinate me.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Button 
+                <button
                   onClick={() => onSectionChange('about')}
-                  className="bg-[#7fb069] hover:bg-[#7fb069]/90 text-white"
+                  className="flex items-center justify-center gap-2 px-4 py-2 text-foreground border border-transparent rounded-md hover:bg-muted hover:border-border transition-all duration-300 focus:outline-none focus:ring-0 active:outline-none active:ring-0"
                 >
-                  <User className="mr-1 h-4 w-4" />
+                  <User className="h-4 w-4" />
                   More about me
-                </Button>
-                <Button 
-                  variant="outline" 
+                </button>
+                <button
                   onClick={() => onSectionChange('reading')}
-                  className="border-[#7fb069]/30 text-[#7fb069] hover:bg-[#7fb069] hover:text-white hover:border-[#7fb069] transition-all duration-300"
+                  className="flex items-center justify-center gap-2 px-4 py-2 text-foreground border border-transparent rounded-md hover:bg-muted hover:border-border transition-all duration-300 focus:outline-none focus:ring-0 active:outline-none active:ring-0"
                 >
-                  <BookOpen className="mr-2 h-4 w-4" />
+                  <BookOpen className="h-4 w-4" />
                   My Reading Notes
-                </Button>
+                </button>
               </div>
             </div>
             
@@ -140,7 +139,7 @@ export function Hero({ onSectionChange }: HeroProps) {
                         <PenTool className="h-5 w-5 text-lime-700" />
                       </div>
                       <div>
-                        <h4 className="font-semibold text-foreground group-hover:text-lime-700 transition-colors duration-300">Written Works</h4>
+                        <h4 className="font-semibold text-foreground group-hover:text-lime-700 transition-colors duration-300">Writing</h4>
                       </div>
                     </div>
                     <p className="text-sm text-muted-foreground leading-relaxed">

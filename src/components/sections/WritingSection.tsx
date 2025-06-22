@@ -9,6 +9,7 @@ type FilterType = 'all' | 'essay' | 'poetry';
 
 export function WritingSection({ title, description, items, emptyMessage, onItemClick }: WritingSectionProps) {
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
+  const [hoveredFilter, setHoveredFilter] = useState<FilterType | null>(null);
 
   const filteredItems = items.filter(item => {
     if (activeFilter === 'all') return true;
@@ -42,20 +43,69 @@ export function WritingSection({ title, description, items, emptyMessage, onItem
     }
   };
 
-  const getFilterButtonClasses = (filter: FilterType) => {
-    if (activeFilter !== filter) {
-      return 'text-muted-foreground hover:text-foreground hover:bg-background/50';
+  const FilterButton = ({ filter }: { filter: FilterType }) => {
+    const isActive = activeFilter === filter;
+    const isHovered = hoveredFilter === filter;
+    
+    // Determine the exact state - only one can be true at a time
+    let buttonState: 'active' | 'hovered' | 'inactive';
+    
+    if (isHovered) {
+      buttonState = 'hovered';
+    } else if (isActive && hoveredFilter === null) {
+      buttonState = 'active';
+    } else {
+      buttonState = 'inactive';
     }
-
-    // Different green shades for active filter buttons
-    switch (filter) {
-      case 'poetry':
-        return 'bg-emerald-600 text-white shadow-sm hover:bg-emerald-700'; // Light green for poetry
-      case 'essay':
-        return 'bg-green-700 text-white shadow-sm hover:bg-green-800'; // Darker green for essays
-      default:
-        return 'bg-primary text-primary-foreground shadow-sm'; // Default green
+    
+    let buttonClasses = 'flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium focus:outline-none';
+    
+    if (filter === 'poetry') {
+      switch (buttonState) {
+        case 'hovered':
+          buttonClasses += ' bg-emerald-700 text-white shadow-sm focus:outline-none transition-none';
+          break;
+        case 'active':
+          buttonClasses += ' bg-emerald-600 text-white shadow-sm focus:outline-none transition-colors duration-150';
+          break;
+        default:
+          buttonClasses += ' text-muted-foreground focus:outline-none transition-colors duration-150';
+      }
+    } else if (filter === 'essay') {
+      switch (buttonState) {
+        case 'hovered':
+          buttonClasses += ' bg-[#7A9660] text-white shadow-sm focus:outline-none transition-none';
+          break;
+        case 'active':
+          buttonClasses += ' bg-[#87A96B] text-white shadow-sm focus:outline-none transition-colors duration-150';
+          break;
+        default:
+          buttonClasses += ' text-muted-foreground focus:outline-none transition-colors duration-150';
+      }
+    } else {
+      switch (buttonState) {
+        case 'hovered':
+          buttonClasses += ' bg-[#6a9659] text-white shadow-sm focus:ring-[#7fb069] transition-none';
+          break;
+        case 'active':
+          buttonClasses += ' bg-[#7fb069] text-white shadow-sm focus:ring-[#7fb069] transition-colors duration-150';
+          break;
+        default:
+          buttonClasses += ' text-muted-foreground focus:ring-[#7fb069] transition-colors duration-150';
+      }
     }
+    
+    return (
+      <button
+        onClick={() => setActiveFilter(filter)}
+        onMouseEnter={() => setHoveredFilter(filter)}
+        onMouseLeave={() => setHoveredFilter(null)}
+        className={buttonClasses}
+      >
+        {getFilterIcon(filter)}
+        <span className="capitalize">{getFilterLabel(filter)}</span>
+      </button>
+    );
   };
 
   return (
@@ -75,19 +125,7 @@ export function WritingSection({ title, description, items, emptyMessage, onItem
             <div className="flex justify-center mb-12">
               <div className="flex gap-2 p-1 bg-muted rounded-lg">
                 {(['all', 'essay', 'poetry'] as FilterType[]).map((filter) => (
-                  <Button
-                    key={filter}
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setActiveFilter(filter)}
-                    className={`
-                      flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200
-                      ${getFilterButtonClasses(filter)}
-                    `}
-                  >
-                    {getFilterIcon(filter)}
-                    <span className="capitalize">{getFilterLabel(filter)}</span>
-                  </Button>
+                  <FilterButton key={filter} filter={filter} />
                 ))}
               </div>
             </div>
@@ -119,7 +157,7 @@ export function WritingSection({ title, description, items, emptyMessage, onItem
                             text-xs flex items-center gap-1
                             ${item.type === 'poetry' 
                               ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300' 
-                              : 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
+                              : 'bg-[#7fb069]/10 text-[#5a8040] border-[#7fb069]/20'
                             }
                           `}
                         >

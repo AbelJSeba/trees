@@ -25,10 +25,10 @@ export function Header({ activeSection, onSectionChange }: HeaderProps) {
           <Leaf className="h-6 w-6 text-accent" />
           <div className="flex flex-col">
             <span className="hidden font-bold sm:inline-block">
-              Abel J.S
+              Abel's
             </span>
             <span className="hidden text-xs text-muted-foreground sm:inline-block">
-              Digital Garden
+              Garden
             </span>
           </div>
         </div>
@@ -39,9 +39,9 @@ export function Header({ activeSection, onSectionChange }: HeaderProps) {
             <button
               key={item.id}
               onClick={() => onSectionChange(item.id)}
-              className={`transition-colors hover:text-foreground/80 ${
+              className={`px-3 py-2 rounded-md border border-transparent transition-all duration-200 hover:border-foreground/20 hover:text-foreground ${
                 activeSection === item.id
-                  ? 'text-foreground'
+                  ? 'text-foreground border-foreground/30'
                   : 'text-foreground/60'
               }`}
             >
@@ -76,9 +76,9 @@ export function Header({ activeSection, onSectionChange }: HeaderProps) {
                   onSectionChange(item.id);
                   setIsMobileMenuOpen(false);
                 }}
-                className={`text-left transition-colors hover:text-foreground/80 ${
+                className={`text-left px-3 py-2 rounded-md border border-transparent transition-all duration-200 hover:border-foreground/20 hover:text-foreground ${
                   activeSection === item.id
-                    ? 'text-foreground'
+                    ? 'text-foreground border-foreground/30'
                     : 'text-foreground/60'
                 }`}
               >

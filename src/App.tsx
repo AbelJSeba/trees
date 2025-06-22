@@ -7,6 +7,7 @@ import { ContentSection } from './components/sections/ContentSection';
 import { WritingSection } from './components/sections/WritingSection';
 import { WritingDetail } from './components/sections/WritingDetail';
 import { Footer } from './components/sections/Footer';
+
 import { SectionType, WritingItem } from './types';
 import { 
   SAMPLE_READING_ITEMS, 
@@ -17,6 +18,10 @@ import {
 export default function App() {
   const [activeSection, setActiveSection] = useState<SectionType>('home');
   const [selectedWriting, setSelectedWriting] = useState<WritingItem | null>(null);
+
+  const handleSectionChange = (section: string) => {
+    setActiveSection(section as SectionType);
+  };
 
   const handleWritingItemClick = (item: WritingItem) => {
     setSelectedWriting(item);
@@ -32,6 +37,7 @@ export default function App() {
         <div className="bg-background">
           <WritingDetail
             {...selectedWriting}
+            tags={selectedWriting.tags || []}
             onBack={handleBackToWriting}
           />
         </div>
@@ -40,7 +46,7 @@ export default function App() {
 
     switch (activeSection) {
       case 'home':
-        return <Hero onSectionChange={setActiveSection} />;
+        return <Hero onSectionChange={handleSectionChange} />;
       case 'about':
         return (
           <div className="bg-background">
@@ -68,7 +74,7 @@ export default function App() {
         return (
           <div className="bg-background">
             <WritingSection
-              title="My Written Works"
+              title="My Writing"
               description="These are my original thoughts, essays, and explorations on topics that fascinate me. Each piece is a seed of an idea that has grown into something I believe is worth sharing with the world."
               items={SAMPLE_WRITING_ITEMS}
               emptyMessage="New writings are taking root. Check back soon for fresh perspectives from my mind!"
@@ -81,20 +87,20 @@ export default function App() {
           <div className="bg-background">
             <ContentSection
               title="My Deep Dives"
-              description="These are my in-depth explorations and comprehensive analyses of complex topics that have captured my curiosity. These are the tall trees in my digital garden - substantial pieces that have grown over time through careful research and reflection."
+              description="These are my in-depth explorations and comprehensive analyses of complex topics that have captured my curiosity. These are the tall trees in my garden - substantial pieces that have grown over time through careful research and reflection."
               items={SAMPLE_DEEP_DIVE_ITEMS}
               emptyMessage="Deep explorations are growing here. Check back soon for my comprehensive analyses of fascinating topics!"
             />
           </div>
         );
       default:
-        return <Hero onSectionChange={setActiveSection} />;
+        return <Hero onSectionChange={handleSectionChange} />;
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header activeSection={activeSection} onSectionChange={setActiveSection} />
+      <Header activeSection={activeSection} onSectionChange={handleSectionChange} />
       <main className="flex-1">
         {renderContent()}
       </main>
