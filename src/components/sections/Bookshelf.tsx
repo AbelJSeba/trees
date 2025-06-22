@@ -83,7 +83,7 @@ export function Bookshelf({ books, onBookClick, selectedBook }: BookshelfProps) 
     const currentScrollRightRef = scrollRightRef.current;
     const currentScrollLeftRef = scrollLeftRef.current;
 
-    let scrollInterval: number | null = null;
+    let scrollInterval: ReturnType<typeof setInterval> | null = null;
 
     const setScrollRightInterval = () => {
       setIsScrolling(true);
