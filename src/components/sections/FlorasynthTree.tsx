@@ -224,6 +224,35 @@ export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
   // Store meshes for removal
   const meshesRef = useRef<any>(null);
 
+  // Create ASH variations for variety while keeping textures working
+  const createAshVariation = async () => {
+    try {
+      // Load the custom tree JSON with embedded textures
+      const response = await fetch('/src/data/customTree.json');
+      const customTreeData = await response.json();
+      
+      // Add small random variations to the ASH-based parameters
+      if (customTreeData.branchingAngle) {
+        customTreeData.branchingAngle += (Math.random() - 0.5) * 20; // ±10 degrees variation
+      }
+      if (customTreeData.branchLength) {
+        customTreeData.branchLength *= 0.8 + Math.random() * 0.4; // 80% to 120% variation
+      }
+      if (customTreeData.foliageDensity) {
+        customTreeData.foliageDensity *= 0.7 + Math.random() * 0.6; // 70% to 130% variation
+      }
+      
+      // Add random seed for natural variation
+      customTreeData.randomSeed = Math.floor(Math.random() * 10000);
+      
+      console.log('Created ASH variation with embedded textures');
+      return customTreeData;
+    } catch (error) {
+      console.log('Failed to load custom tree, using ASH preset');
+      return FLORASYNTH.Presets.ASH;
+    }
+  };
+
   // Generate tree with Florasynth
   const generateTree = async () => {
     try {
@@ -245,29 +274,15 @@ export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
         }
       }
 
-      // Use embedded textures approach as recommended by Jacopo
-      let customProperties;
-      let tree;
-      
-      try {
-        // Load the JSON file with embedded textures
-        const response = await fetch('/src/data/customTree.json');
-        const customTreeData = await response.json();
-        
-        // Create Properties object from the JSON (Jacopo's approach)
-        customProperties = new FLORASYNTH.Properties(customTreeData);
-        tree = new FLORASYNTH.Tree(customProperties);
-        
-        console.log('Loaded custom tree with embedded textures');
-      } catch (error) {
-        console.log('Fallback to ASH preset');
-        tree = new FLORASYNTH.Tree(FLORASYNTH.Presets.ASH);
-      }
+      // Create ASH variation with embedded textures
+      const ashVariationData = await createAshVariation();
+      const customProperties = new FLORASYNTH.Properties(ashVariationData);
+      const tree = new FLORASYNTH.Tree(customProperties);
       
       // Generate meshes
       let meshes = await tree.generate();
       
-      console.log('Generated meshes:', {
+      console.log('Generated ASH variation meshes:', {
         mesh: !!meshes.mesh,
         foliageMesh: !!meshes.foliageMesh,
         fruitMesh: !!meshes.fruitMesh
@@ -392,6 +407,17 @@ export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
           </div>
         </div>
       )}
+
+      {/* Generate New Tree Button */}
+      <div className="absolute top-4 right-4">
+        <button
+          onClick={generateTree}
+          disabled={isLoading}
+          className="px-4 py-2 bg-white/10 hover:bg-white/20 disabled:bg-white/5 text-white text-sm rounded-lg backdrop-blur-sm border border-white/20 transition-all duration-200 hover:scale-105 disabled:cursor-not-allowed disabled:scale-100"
+        >
+          {isLoading ? 'Growing...' : 'New Tree'}
+        </button>
+      </div>
 
       {/* Interaction hint */}
       <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">

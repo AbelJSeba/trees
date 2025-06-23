@@ -163,7 +163,7 @@ export function Hero({ onSectionChange }: HeroProps) {
                         <Microscope className="h-5 w-5 text-teal-700" />
                       </div>
                       <div>
-                        <h4 className="font-semibold text-foreground group-hover:text-teal-700 transition-colors duration-300">Deep Dives</h4>
+                        <h4 className="font-semibold text-foreground group-hover:text-teal-700 transition-colors duration-300">Research</h4>
                       </div>
                     </div>
                     <p className="text-sm text-muted-foreground leading-relaxed">
