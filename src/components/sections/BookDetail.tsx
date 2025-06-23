@@ -42,37 +42,37 @@ export function BookDetail({ book, onBack }: BookDetailProps) {
                   <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
                     {book.title}
                   </h1>
-                  <p className="text-xl text-muted-foreground mb-4">
+                  <p className="text-xl mb-4" style={{ color: '#999999' }}>
                     by {book.author}
                   </p>
                   
                   {/* Rating */}
                   <div className="flex items-center gap-2 mb-6">
-                    {book.rating === 0 ? (
-                      <span className="text-sm text-muted-foreground">No rating given</span>
-                    ) : (
-                      <>
-                        <div className="flex items-center">
-                          {[...Array(10)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`w-4 h-4 ${
-                                i < book.rating
-                                  ? 'text-yellow-400 fill-yellow-400'
-                                  : 'text-gray-300'
-                              }`}
-                            />
-                          ))}
-                        </div>
-                        <span className="text-sm text-muted-foreground">
-                          {book.rating}/10
-                        </span>
-                      </>
-                    )}
+                                          {book.rating === 0 ? (
+                        <span className="text-sm" style={{ color: '#676767' }}>No rating given</span>
+                      ) : (
+                        <>
+                          <div className="flex items-center">
+                            {[...Array(10)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`w-4 h-4 ${
+                                  i < book.rating
+                                    ? 'text-yellow-400 fill-yellow-400'
+                                    : 'text-gray-300'
+                                }`}
+                              />
+                            ))}
+                          </div>
+                          <span className="text-sm" style={{ color: '#676767' }}>
+                            {book.rating}/10
+                          </span>
+                        </>
+                      )}
                   </div>
 
                   {/* Metadata */}
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6">
+                  <div className="flex flex-wrap items-center gap-4 text-sm mb-6" style={{ color: '#676767' }}>
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
                       <span>Read: {book.date}</span>

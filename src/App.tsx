@@ -11,18 +11,24 @@ import { Footer } from './components/sections/Footer';
 
 import { SectionType, WritingItem } from './types';
 import { 
-  SAMPLE_READING_ITEMS, 
   SAMPLE_WRITING_ITEMS, 
   SAMPLE_RESEARCH_ITEMS 
 } from './lib/constants';
+import { BOOKS } from './data';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<SectionType>('home');
   const [selectedWriting, setSelectedWriting] = useState<WritingItem | null>(null);
+  const [readingNavigationKey, setReadingNavigationKey] = useState(0);
 
   const handleSectionChange = (section: string) => {
     setActiveSection(section as SectionType);
     setSelectedWriting(null); // Clear selected writing when changing sections
+    
+    // Increment key when navigating to reading to reset component state
+    if (section === 'reading') {
+      setReadingNavigationKey(prev => prev + 1);
+    }
   };
 
   const handleWritingItemClick = (item: WritingItem) => {
@@ -64,11 +70,12 @@ export default function App() {
       case 'reading':
         return (
           <ReadingGarden
-              title="Reading Garden"
-              description="Curated notes and insights from books, articles, and research. Each note represents knowledge gathered along the learning journey."
-            items={SAMPLE_READING_ITEMS}
-              emptyMessage="New reading notes are growing here. Check back soon for fresh insights!"
-            />
+            key={readingNavigationKey}
+            title="Reading Garden"
+            description="Curated notes and insights from books, articles, and research. Each note represents knowledge gathered along the learning journey."
+            items={BOOKS}
+            emptyMessage="New reading notes are growing here. Check back soon for fresh insights!"
+          />
         );
       case 'writing':
         return (

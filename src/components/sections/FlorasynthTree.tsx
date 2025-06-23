@@ -32,11 +32,19 @@ export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
       TexturingUtils: !!FLORASYNTH.TexturingUtils,
       allKeys: Object.keys(FLORASYNTH)
     });
+    
+    // Debug ASH preset structure
+    console.log('ASH Preset:', FLORASYNTH.Presets.ASH);
+    
+    // Debug Tree constructor and methods
+    if (FLORASYNTH.Tree) {
+      console.log('Tree methods:', Object.getOwnPropertyNames(FLORASYNTH.Tree));
+      console.log('Tree.applyTextures:', typeof FLORASYNTH.Tree.applyTextures);
+    }
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x87CEEB); // Sky blue background
-    scene.fog = new THREE.Fog(0x87CEEB, 30, 100);
+    scene.background = new THREE.Color(0x6b6b6b); // Dark grey background to match your image
     sceneRef.current = scene;
 
     // Camera setup
@@ -46,8 +54,8 @@ export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
       0.1,
       1000
     );
-    camera.position.set(0, 10, 25);
-    camera.lookAt(0, 6, 0);
+    camera.position.set(0, 8, 20);
+    camera.lookAt(0, 4, 0);
     cameraRef.current = camera;
 
     // Renderer setup with WebGL error handling
@@ -59,8 +67,6 @@ export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
     });
     renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     
     // Handle WebGL context loss
     renderer.domElement.addEventListener('webglcontextlost', (event) => {
@@ -77,36 +83,21 @@ export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
     mountRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+    // Lighting optimized for clean background
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(20, 30, 10);
-    directionalLight.castShadow = true;
-    directionalLight.shadow.camera.left = -50;
-    directionalLight.shadow.camera.right = 50;
-    directionalLight.shadow.camera.top = 50;
-    directionalLight.shadow.camera.bottom = -50;
-    directionalLight.shadow.mapSize.width = 2048;
-    directionalLight.shadow.mapSize.height = 2048;
+    directionalLight.castShadow = false; // Disable shadows for cleaner look
     scene.add(directionalLight);
     
-    // Add a second light from the opposite direction
-    const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.3);
+    // Add a second light from the opposite direction for even lighting
+    const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.4);
     directionalLight2.position.set(-10, 20, -10);
     scene.add(directionalLight2);
 
-    // Ground plane
-    const groundGeometry = new THREE.CircleGeometry(15, 32);
-    const groundMaterial = new THREE.MeshStandardMaterial({ 
-      color: 0x3d2817,
-      roughness: 0.9
-    });
-    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-    ground.rotation.x = -Math.PI / 2;
-    ground.receiveShadow = true;
-    scene.add(ground);
+    // No ground plane - clean background
 
     // Tree group
     const treeGroup = new THREE.Group();
@@ -230,6 +221,9 @@ export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
     };
   }, []);
 
+  // Store meshes for removal
+  const meshesRef = useRef<any>(null);
+
   // Generate tree with Florasynth
   const generateTree = async () => {
     try {
@@ -238,184 +232,86 @@ export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
       // Fix Florasynth bug: Materials is referenced globally instead of FLORASYNTH.Materials
       (globalThis as any).Materials = (FLORASYNTH as any).Materials;
       
-      // Clear existing tree with proper disposal
-      if (treeGroupRef.current) {
-        const disposeObject = (object: THREE.Object3D) => {
-          object.traverse((child) => {
-            if (child instanceof THREE.Mesh) {
-              // Dispose geometry
-              if (child.geometry) {
-                child.geometry.dispose();
-              }
-              
-              // Dispose materials
-              if (child.material) {
-                if (Array.isArray(child.material)) {
-                  child.material.forEach(material => {
-                    if (material.map) material.map.dispose();
-                    if (material.normalMap) material.normalMap.dispose();
-                    if (material.roughnessMap) material.roughnessMap.dispose();
-                    material.dispose();
-                  });
-                } else {
-                  if (child.material.map) child.material.map.dispose();
-                  if (child.material.normalMap) child.material.normalMap.dispose();
-                  if (child.material.roughnessMap) child.material.roughnessMap.dispose();
-                  child.material.dispose();
-                }
-              }
-            }
-          });
-        };
-
-        // Dispose all children
-        treeGroupRef.current.children.forEach(child => {
-          disposeObject(child);
-          treeGroupRef.current!.remove(child);
-        });
-        
-        // Clear the group
-        treeGroupRef.current.clear();
-      }
-
-      // Try to load custom properties, fallback to ASH preset
-      let tree;
-      let properties;
-      try {
-        const response = await fetch('/src/data/customTree.json');
-        const customTreeProperties = await response.json();
-        properties = new FLORASYNTH.Properties(customTreeProperties);
-        tree = new FLORASYNTH.Tree(properties);
-      } catch (error) {
-        console.log('Using ASH preset instead of custom properties');
-        tree = new FLORASYNTH.Tree(FLORASYNTH.Presets.ASH);
-        properties = null;
-      }
-      
-      // Fixed tree size - smaller to fit viewport
-      const growthFactor = 0.6; // Smaller tree that fits in view
-      
-      // Generate tree
-      const meshes = await tree.generate();
-
-      // Attempt to apply textures, fallback to default materials on failure
-      try {
-        console.log('Attempting to apply custom textures...');
-        
-        // Load textures with callbacks to ensure they're loaded
-        const textureLoader = new THREE.TextureLoader();
-        
-        const barkTexture = textureLoader.load(
-          '/textures/bark.jpg',
-          (texture) => {
-            console.log('Bark texture loaded successfully:', texture.image.width, 'x', texture.image.height);
-          },
-          undefined,
-          (error) => {
-            console.error('Failed to load bark texture:', error);
-          }
-        );
-        
-        const foliageTexture = textureLoader.load(
-          '/textures/foliage.jpg',
-          (texture) => {
-            console.log('Foliage texture loaded successfully:', texture.image.width, 'x', texture.image.height);
-          },
-          undefined,
-          (error) => {
-            console.error('Failed to load foliage texture:', error);
-          }
-        );
-        
-        // Configure textures
-        barkTexture.wrapS = barkTexture.wrapT = THREE.RepeatWrapping;
-        barkTexture.repeat.set(2, 2); // Adjust tiling
-        foliageTexture.wrapS = foliageTexture.wrapT = THREE.RepeatWrapping;
-        foliageTexture.repeat.set(1, 1);
-        
-        // Store textures for later application
-        (window as any).barkTexture = barkTexture;
-        (window as any).foliageTexture = foliageTexture;
-        console.log('Textures loaded and stored for manual application');
-        
-      } catch (error) {
-        console.warn('Failed to apply textures, using default materials:', error);
-        console.log('Using default black and white materials');
-      }
-
-      // Add tree meshes to scene
-      if (meshes.mesh && treeGroupRef.current) {
-        meshes.mesh.scale.setScalar(growthFactor);
-        treeGroupRef.current.add(meshes.mesh);
-        
-        // Apply shadows
-        meshes.mesh.traverse((child) => {
-          if (child instanceof THREE.Mesh) {
-            child.castShadow = true;
-            child.receiveShadow = true;
-          }
-        });
-      }
-
-      if (meshes.foliageMesh && treeGroupRef.current) {
-        meshes.foliageMesh.scale.setScalar(growthFactor);
-        treeGroupRef.current.add(meshes.foliageMesh);
-        
-        // Apply shadows
-        meshes.foliageMesh.traverse((child) => {
-          if (child instanceof THREE.Mesh) {
-            child.castShadow = true;
-            child.receiveShadow = true;
-          }
-        });
-      }
-
-      if (meshes.fruitMesh && treeGroupRef.current) {
-        meshes.fruitMesh.scale.setScalar(growthFactor);
-        treeGroupRef.current.add(meshes.fruitMesh);
-        
-        meshes.fruitMesh.traverse((child) => {
-          if (child instanceof THREE.Mesh) {
-            child.castShadow = true;
-          }
-        });
-      }
-
-      // Scale the entire tree group smaller for better viewport fit
-      if (treeGroupRef.current) {
-        treeGroupRef.current.scale.setScalar(0.6);
-      }
-
-      // Apply textures manually after meshes are in scene
-      setTimeout(() => {
-        const barkTex = (window as any).barkTexture;
-        const foliageTex = (window as any).foliageTexture;
-        
-        if (barkTex && foliageTex && treeGroupRef.current) {
-          console.log('Applying textures to tree in scene...');
-          
-          treeGroupRef.current.traverse((child) => {
-            if (child instanceof THREE.Mesh && child.material) {
-              console.log('Found mesh with material type:', child.material.constructor.name);
-              
-              // Check if it's a trunk/branch or foliage mesh by examining geometry or name
-              const isFoliage = child.name?.includes('foliage') || child.name?.includes('leaf') || 
-                               child.geometry?.attributes?.position?.count > 1000; // Foliage typically has more vertices
-              
-              if (child.material instanceof THREE.MeshStandardMaterial || 
-                  child.material instanceof THREE.MeshBasicMaterial ||
-                  child.material instanceof THREE.MeshLambertMaterial) {
-                
-                child.material.map = isFoliage ? foliageTex : barkTex;
-                child.material.needsUpdate = true;
-                console.log(`Applied ${isFoliage ? 'foliage' : 'bark'} texture to mesh`);
-              }
-            }
-          });
-          
-          console.log('Finished applying textures to all meshes');
+      // Remove tree from scene (exact documentation format)
+      if (meshesRef.current) {
+        if (meshesRef.current.mesh && treeGroupRef.current) {
+          treeGroupRef.current.remove(meshesRef.current.mesh);
         }
-      }, 500);
+        if (meshesRef.current.foliageMesh && treeGroupRef.current) {
+          treeGroupRef.current.remove(meshesRef.current.foliageMesh);
+        }
+        if (meshesRef.current.fruitMesh && treeGroupRef.current) {
+          treeGroupRef.current.remove(meshesRef.current.fruitMesh);
+        }
+      }
+
+      // Use embedded textures approach as recommended by Jacopo
+      let customProperties;
+      let tree;
+      
+      try {
+        // Load the JSON file with embedded textures
+        const response = await fetch('/src/data/customTree.json');
+        const customTreeData = await response.json();
+        
+        // Create Properties object from the JSON (Jacopo's approach)
+        customProperties = new FLORASYNTH.Properties(customTreeData);
+        tree = new FLORASYNTH.Tree(customProperties);
+        
+        console.log('Loaded custom tree with embedded textures');
+      } catch (error) {
+        console.log('Fallback to ASH preset');
+        tree = new FLORASYNTH.Tree(FLORASYNTH.Presets.ASH);
+      }
+      
+      // Generate meshes
+      let meshes = await tree.generate();
+      
+      console.log('Generated meshes:', {
+        mesh: !!meshes.mesh,
+        foliageMesh: !!meshes.foliageMesh,
+        fruitMesh: !!meshes.fruitMesh
+      });
+      
+      // Apply embedded textures using Jacopo's method
+      if (customProperties) {
+        try {
+          // Extract embedded texture data from the JSON
+          const embeddedTextures = await customProperties.getEmbeddedData();
+          console.log('Got embedded textures:', embeddedTextures);
+          
+          // Apply textures using the embedded data
+          await FLORASYNTH.Tree.applyTextures(meshes, embeddedTextures);
+          console.log('Applied embedded textures successfully');
+        } catch (textureError) {
+          console.warn('Failed to apply embedded textures:', textureError);
+        }
+      }
+
+      // Store meshes reference
+      meshesRef.current = meshes;
+
+      // Add new tree to scene (exact documentation format)
+      if (meshes.mesh && treeGroupRef.current) {
+        meshes.mesh.scale.setScalar(0.6); // Scale for viewport
+        treeGroupRef.current.add(meshes.mesh);
+      }
+      
+      if (meshes.foliageMesh && treeGroupRef.current) {
+        meshes.foliageMesh.scale.setScalar(0.6); // Scale for viewport
+        treeGroupRef.current.add(meshes.foliageMesh);
+      }
+      
+      if (meshes.fruitMesh && treeGroupRef.current) {
+        meshes.fruitMesh.scale.setScalar(0.6); // Scale for viewport
+        treeGroupRef.current.add(meshes.fruitMesh);
+      }
+
+      // Scale and position the entire tree group for better viewport fit
+      if (treeGroupRef.current) {
+        treeGroupRef.current.scale.setScalar(0.35);
+        treeGroupRef.current.position.y = -3; // Move tree down
+      }
 
       console.log('Tree added to scene with', treeGroupRef.current?.children.length, 'objects');
 
