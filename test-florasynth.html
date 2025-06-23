@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Florasynth Investigation</title>
+</head>
+<body>
+    <h1>Florasynth Loading Investigation</h1>
+    <div id="results"></div>
+    
+    <script type="module">
+        // Check if FLORASYNTH is available globally
+        const results = document.getElementById('results');
+        
+        // Check global scope
+        if (typeof window.FLORASYNTH !== 'undefined') {
+            results.innerHTML += '<p>✅ FLORASYNTH found in global scope</p>';
+            results.innerHTML += '<p>Available properties: ' + Object.keys(window.FLORASYNTH).join(', ') + '</p>';
+        } else {
+            results.innerHTML += '<p>❌ FLORASYNTH not found in global scope</p>';
+        }
+        
+        // Try to import it as a module
+        try {
+            const module = await import('florasynth');
+            results.innerHTML += '<p>✅ Florasynth imported as ES module</p>';
+            results.innerHTML += '<p>Module exports: ' + Object.keys(module).join(', ') + '</p>';
+        } catch (error) {
+            results.innerHTML += '<p>❌ Failed to import florasynth: ' + error.message + '</p>';
+        }
+        
+        // Check for common CDN URLs
+        const cdnUrls = [
+            'https://unpkg.com/florasynth',
+            'https://cdn.jsdelivr.net/npm/florasynth',
+            'https://cdnjs.cloudflare.com/ajax/libs/florasynth'
+        ];
+        
+        results.innerHTML += '<h2>Checking CDN availability:</h2>';
+        
+        for (const url of cdnUrls) {
+            try {
+                const response = await fetch(url, { method: 'HEAD' });
+                if (response.ok) {
+                    results.innerHTML += '<p>✅ Found at: ' + url + '</p>';
+                } else {
+                    results.innerHTML += '<p>❌ Not found at: ' + url + ' (Status: ' + response.status + ')</p>';
+                }
+            } catch (error) {
+                results.innerHTML += '<p>❌ Error checking: ' + url + '</p>';
+            }
+        }
+    </script>
+</body>
+</html>

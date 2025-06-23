@@ -122,9 +122,6 @@ export function WritingSection({ title, description, items, emptyMessage, onItem
             <h1 className="text-4xl md:text-5xl font-medium text-accent mb-4">
               {title}
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {description}
-            </p>
           </motion.div>
 
             {/* Filter Tabs */}

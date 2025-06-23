@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ScrollytellingTree } from './ScrollytellingTree';
+import { FlorasynthTree } from './FlorasynthTree';
 import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Sprout, BookOpen, PenTool, Microscope, Code, User } from 'lucide-react';
@@ -21,7 +21,7 @@ export function Hero({ onSectionChange }: HeroProps) {
                   Gardener
                 </Badge>
                 <h1 className="text-3xl tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                  Hi, I'm <span className="text-accent">Abel</span> welcome to my garden
+                  El Jardín de <span className="text-accent">Abel</span>
                 </h1>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
                   Welcome to my garden where my thoughts bloom, ideas take root, and knowledge grows organically. 
@@ -48,7 +48,7 @@ export function Hero({ onSectionChange }: HeroProps) {
             
             <div className="relative">
               <Card className="p-6 bg-gradient-to-br from-accent/10 to-secondary border-accent/20">
-                <ScrollytellingTree className="aspect-square rounded-lg mb-4" />
+                <FlorasynthTree className="aspect-square mb-4" />
                 <div className="space-y-2">
                   <h3 className="text-lg">Abel's Digital Ecosystem</h3>
                   <p className="text-sm text-muted-foreground">

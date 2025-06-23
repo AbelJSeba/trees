@@ -28,7 +28,6 @@ export function ReadingGarden({ title, description, items, emptyMessage }: Readi
             {/* Header */}
             <div className="text-center mb-12">
               <h1 className="text-4xl md:text-5xl font-medium text-accent mb-4">{title}</h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{description}</p>
             </div>
 
             {/* Bookshelf */}
