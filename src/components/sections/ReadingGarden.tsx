@@ -38,7 +38,7 @@ export function ReadingGarden({ title, description, items, emptyMessage }: Readi
                   <Bookshelf books={items} onBookClick={handleBookClick} selectedBook={selectedBook} />
                 </div>
 
-                {/* Book Summary Display */}
+                {/* Single Book Summary Display */}
                 {selectedBook && (
                   <div className="mt-12 mx-auto max-w-4xl">
                     <div className="text-center space-y-4">
@@ -46,14 +46,72 @@ export function ReadingGarden({ title, description, items, emptyMessage }: Readi
                         {selectedBook.title}
                       </h2>
                       <p className="text-xl text-muted-foreground">
-                        By: {selectedBook.author} - Read: {selectedBook.date} - Rating: {selectedBook.rating}/10
+                        By: {selectedBook.author} - Read: {selectedBook.date} - Rating: {selectedBook.rating === 0 ? 'N/A' : `${selectedBook.rating}/10`}
                       </p>
                       <div className="max-w-3xl mx-auto">
-                        <p className="text-muted-foreground leading-relaxed">
-                          {selectedBook.description}
-                        </p>
+                        <div className="text-muted-foreground leading-relaxed text-left space-y-4">
+                          {selectedBook.description.split('\n\n').map((paragraph, index) => (
+                            <p key={index}>
+                              {paragraph}
+                            </p>
+                          ))}
+                        </div>
                       </div>
                     </div>
+                  </div>
+                )}
+
+                {/* All Reviews Display - when no book is selected */}
+                {!selectedBook && (
+                  <div className="mt-16 mx-auto max-w-4xl space-y-12">
+                    {items.map((book, index) => (
+                      <div key={book.id}>
+                        {/* Review Card */}
+                        <div className="flex gap-8 items-start">
+                          {/* Book Cover */}
+                          <div className="flex-shrink-0">
+                            <img
+                              src={book.coverImage}
+                              alt={book.title}
+                              className="w-32 h-42 object-cover rounded-lg shadow-md"
+                            />
+                          </div>
+
+                          {/* Review Content */}
+                          <div className="flex-1 space-y-4">
+                            {/* Title and Metadata */}
+                            <div>
+                              <h2 
+                                className="text-2xl font-bold text-foreground mb-2 cursor-pointer hover:text-accent border-b-2 border-transparent hover:border-black inline-block"
+                                onClick={() => handleBookClick(book)}
+                              >
+                                {book.title}
+                              </h2>
+                              <p className="text-lg text-muted-foreground mb-1">
+                                {book.author}
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                Read: {book.date} • Rating: {book.rating === 0 ? 'N/A' : `${book.rating}/10`}
+                              </p>
+                            </div>
+
+                            {/* Review Text */}
+                            <div className="text-muted-foreground leading-relaxed space-y-4">
+                              {book.description.split('\n\n').map((paragraph, paragraphIndex) => (
+                                <p key={paragraphIndex}>
+                                  {paragraph}
+                                </p>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Divider - don't show after last item */}
+                        {index < items.length - 1 && (
+                          <div className="mt-12 border-t border-border"></div>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>

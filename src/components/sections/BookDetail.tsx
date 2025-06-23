@@ -48,21 +48,27 @@ export function BookDetail({ book, onBack }: BookDetailProps) {
                   
                   {/* Rating */}
                   <div className="flex items-center gap-2 mb-6">
-                    <div className="flex items-center">
-                      {[...Array(10)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-4 h-4 ${
-                            i < book.rating
-                              ? 'text-yellow-400 fill-yellow-400'
-                              : 'text-gray-300'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                    <span className="text-sm text-muted-foreground">
-                      {book.rating}/10
-                    </span>
+                    {book.rating === 0 ? (
+                      <span className="text-sm text-muted-foreground">No rating given</span>
+                    ) : (
+                      <>
+                        <div className="flex items-center">
+                          {[...Array(10)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`w-4 h-4 ${
+                                i < book.rating
+                                  ? 'text-yellow-400 fill-yellow-400'
+                                  : 'text-gray-300'
+                              }`}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-sm text-muted-foreground">
+                          {book.rating}/10
+                        </span>
+                      </>
+                    )}
                   </div>
 
                   {/* Metadata */}
