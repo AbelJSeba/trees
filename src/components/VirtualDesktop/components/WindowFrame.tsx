@@ -101,7 +101,7 @@ export function WindowFrame({ window, onClose, onFocus, onUpdateState }: WindowF
         
         {/* Invisible drag handle for iPod */}
         <div 
-          className="absolute inset-0 cursor-move z-5"
+          className="absolute inset-0 cursor-move z-50"
           onMouseDown={handleMouseDown}
         />
         

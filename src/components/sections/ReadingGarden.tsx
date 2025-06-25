@@ -53,7 +53,7 @@ export function ReadingGarden({ title, description, items, emptyMessage }: Readi
                           {selectedBook.description.split('\n\n').map((paragraph, index) => (
                             <p key={index}>
                               {paragraph}
-                            </p>
+                        </p>
                           ))}
                         </div>
                       </div>

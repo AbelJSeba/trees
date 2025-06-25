@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import Lottie from 'lottie-react';
 
 interface PowerStatesProps {
   mode: 'sleep' | 'restart' | 'shutdown' | null;
@@ -11,7 +10,6 @@ interface PowerStatesProps {
 
 export function PowerStates({ mode, onWakeUp, onRestartComplete, onPowerOn }: PowerStatesProps) {
   const [restartProgress, setRestartProgress] = useState(0);
-  const [sleepAnimation, setSleepAnimation] = useState(null);
 
   useEffect(() => {
     if (mode === 'restart') {
@@ -33,15 +31,6 @@ export function PowerStates({ mode, onWakeUp, onRestartComplete, onPowerOn }: Po
     }
   }, [mode, onRestartComplete]);
 
-  useEffect(() => {
-    if (mode === 'sleep') {
-      fetch('/animations/sleeping.lottie')
-        .then(response => response.json())
-        .then(data => setSleepAnimation(data))
-        .catch(error => console.error('Error loading sleep animation:', error));
-    }
-  }, [mode]);
-
   if (!mode) return null;
 
   if (mode === 'sleep') {
@@ -53,27 +42,13 @@ export function PowerStates({ mode, onWakeUp, onRestartComplete, onPowerOn }: Po
         transition={{ duration: 1 }}
         onClick={onWakeUp}
       >
-        {sleepAnimation ? (
-          <Lottie
-            animationData={sleepAnimation}
-            loop={true}
-            style={{ width: 400, height: 400 }}
+        <div className="flex items-center justify-center">
+          <img 
+            src="/animations/sleeping.svg" 
+            alt="Sleeping animation" 
+            className="w-96 h-96"
           />
-        ) : (
-          <motion.div
-            className="text-white text-8xl"
-            initial={{ scale: 0.8, opacity: 0.5 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ 
-              duration: 2,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut"
-            }}
-          >
-            🌙
-          </motion.div>
-        )}
+        </div>
       </motion.div>
     );
   }
@@ -136,19 +111,14 @@ export function PowerStates({ mode, onWakeUp, onRestartComplete, onPowerOn }: Po
 
   if (mode === 'shutdown') {
     return (
-      <motion.div
-        className="fixed inset-0 bg-black z-[99999] flex items-center justify-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 2 }}
-      >
+      <div className="fixed inset-0 bg-black z-[99999] flex items-center justify-center">
         <button
           onClick={onPowerOn}
           className="w-16 h-16 bg-gray-800 rounded-full border-2 border-gray-600 hover:bg-gray-700 transition-colors flex items-center justify-center"
         >
-          <div className="w-6 h-6 border-2 border-white rounded-full border-r-transparent animate-spin"></div>
+          <img src="/icons/poweron.svg" alt="Power On" className="w-8 h-8" />
         </button>
-      </motion.div>
+      </div>
     );
   }
 

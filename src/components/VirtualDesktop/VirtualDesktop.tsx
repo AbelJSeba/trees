@@ -46,13 +46,13 @@ export function VirtualDesktop({ onToggleHeader, headerVisible = false }: Virtua
   };
 
   return (
-    <div className={`relative w-full ${headerVisible ? 'h-[calc(100vh-64px)] mt-16' : 'h-screen'} overflow-hidden bg-gray-900`}>
+    <div className="relative w-full h-screen overflow-hidden bg-gray-900" style={{ paddingTop: headerVisible ? '32px' : '0' }}>
       {/* Menu Bar */}
       <MenuBar 
         activeApp={windows.find(w => w.isActive)?.appType || null}
         onWallpaperChange={setWallpaper}
         onPowerAction={handlePowerAction}
-        onToggleHeader={onToggleHeader}
+        onToggleHeader={onToggleHeader ? () => onToggleHeader() : undefined}
       />
       
       {/* Desktop */}

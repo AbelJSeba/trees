@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { Projects } from './Projects';
+import Projects from './Projects';
 import { ImageGallery } from './ImageGallery';
 import { MusicPlayer } from './MusicPlayer';
 import { TreePine, Camera, Music } from 'lucide-react';
@@ -8,7 +8,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 type CreationType = 'projects' | 'images' | 'music';
 
-export function CreationsPage() {
+interface CreationsPageProps {
+  onHeaderToggle?: (visible: boolean) => void;
+}
+
+export function CreationsPage({ onHeaderToggle }: CreationsPageProps) {
   const [activeTab, setActiveTab] = useState<CreationType>('projects');
 
   const tabConfig = {
@@ -38,8 +42,20 @@ export function CreationsPage() {
     }
   };
 
+  // For projects tab, render full screen virtual desktop
+  if (activeTab === 'projects') {
+    return (
+      <section className="h-screen overflow-hidden">
+        <div className="h-full w-full">
+          <Projects onHeaderToggle={onHeaderToggle} />
+        </div>
+      </section>
+    );
+  }
+
+  // For other tabs, show normal tabbed interface
   return (
-    <section className="min-h-screen py-20">
+    <section className="min-h-screen py-20 pt-24">
       <div className="container px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -138,7 +154,7 @@ export function CreationsPage() {
                 transition={{ duration: 0.3 }}
               >
                 <TabsContent value="projects" className="mt-0">
-                  <Projects />
+                  {/* This won't render due to early return above */}
                 </TabsContent>
                 
                 <TabsContent value="images" className="mt-0">

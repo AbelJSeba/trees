@@ -52,21 +52,21 @@ export function BookDetail({ book, onBack }: BookDetailProps) {
                         <span className="text-sm" style={{ color: '#676767' }}>No rating given</span>
                       ) : (
                         <>
-                          <div className="flex items-center">
-                            {[...Array(10)].map((_, i) => (
-                              <Star
-                                key={i}
-                                className={`w-4 h-4 ${
-                                  i < book.rating
-                                    ? 'text-yellow-400 fill-yellow-400'
-                                    : 'text-gray-300'
-                                }`}
-                              />
-                            ))}
-                          </div>
+                    <div className="flex items-center">
+                      {[...Array(10)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`w-4 h-4 ${
+                            i < book.rating
+                              ? 'text-yellow-400 fill-yellow-400'
+                              : 'text-gray-300'
+                          }`}
+                        />
+                      ))}
+                    </div>
                           <span className="text-sm" style={{ color: '#676767' }}>
-                            {book.rating}/10
-                          </span>
+                      {book.rating}/10
+                    </span>
                         </>
                       )}
                   </div>

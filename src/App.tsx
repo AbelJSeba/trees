@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Header } from './components/sections/Header';
 import { Hero } from './components/sections/Hero';
 import { About } from './components/sections/About';
-import { VirtualDesktop } from './components/VirtualDesktop';
+import { CreationsPage } from './components/sections/CreationsPage';
 import { ReadingGarden } from './components/sections/ReadingGarden';
 import { WritingSection } from './components/sections/WritingSection';
 import { WritingDetail } from './components/sections/WritingDetail';
@@ -17,22 +17,18 @@ import {
 import { BOOKS } from './data';
 
 export default function App() {
-  const [activeSection, setActiveSection] = useState<SectionType>('projects');
+  const [activeSection, setActiveSection] = useState<SectionType>('home');
   const [selectedWriting, setSelectedWriting] = useState<WritingItem | null>(null);
   const [readingNavigationKey, setReadingNavigationKey] = useState(0);
-  const [headerVisible, setHeaderVisible] = useState(false);
+  const [headerVisible, setHeaderVisible] = useState<boolean>(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const handleSectionChange = (section: string) => {
     setActiveSection(section as SectionType);
     setSelectedWriting(null); // Clear selected writing when changing sections
     
-    // Show/hide header based on section
-    if (section === 'projects') {
-      setHeaderVisible(false);
-    } else {
-      setHeaderVisible(true);
-    }
+    // Set header visibility based on section
+    setHeaderVisible(section !== 'projects');
     
     // Increment key when navigating to reading to reset component state
     if (section === 'reading') {
@@ -55,7 +51,7 @@ export default function App() {
   const renderContent = () => {
     if (selectedWriting) {
       return (
-        <div className="bg-background">
+        <div className="bg-background pt-16">
           <WritingDetail
             {...selectedWriting}
             tags={selectedWriting.tags || []}
@@ -70,25 +66,27 @@ export default function App() {
         return <Hero onSectionChange={handleSectionChange} />;
       case 'about':
         return (
-          <div className="bg-background">
+          <div className="bg-background pt-16">
             <About />
           </div>
         );
       case 'projects':
-        return <VirtualDesktop onToggleHeader={toggleHeader} headerVisible={headerVisible} />;
+        return <CreationsPage onHeaderToggle={setHeaderVisible} />;
       case 'reading':
         return (
-          <ReadingGarden
-            key={readingNavigationKey}
-            title="Reading Garden"
-            description="Curated notes and insights from books, articles, and research. Each note represents knowledge gathered along the learning journey."
-            items={BOOKS}
-            emptyMessage="New reading notes are growing here. Check back soon for fresh insights!"
-          />
+          <div className="pt-16">
+            <ReadingGarden
+              key={readingNavigationKey}
+              title="Reading Garden"
+              description="Curated notes and insights from books, articles, and research. Each note represents knowledge gathered along the learning journey."
+              items={BOOKS}
+              emptyMessage="New reading notes are growing here. Check back soon for fresh insights!"
+            />
+          </div>
         );
       case 'writing':
         return (
-          <div className="bg-background">
+          <div className="bg-background pt-16">
             <WritingSection
               title="Writing"
               description="Original thoughts, essays, and explorations on various topics. Each piece represents an idea that has grown into something worth sharing."
@@ -100,7 +98,7 @@ export default function App() {
         );
       case 'research':
         return (
-          <div className="bg-background">
+          <div className="bg-background pt-16">
             <ResearchSection
               title="Research"
               description="My view on research has changed and I've started doing independent research myself."
@@ -116,12 +114,14 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header 
-        activeSection={activeSection} 
-        onSectionChange={handleSectionChange}
-        visible={headerVisible || activeSection !== 'projects'}
-      />
-      <main className={`flex-1 ${activeSection === 'projects' ? '' : 'pt-16'}`}>
+      {(activeSection !== 'projects' || headerVisible) && (
+        <Header 
+          activeSection={activeSection} 
+          onSectionChange={handleSectionChange}
+          visible={headerVisible || activeSection !== 'projects'}
+        />
+      )}
+      <main className="flex-1">
         {renderContent()}
       </main>
       {activeSection !== 'projects' && <Footer />}
