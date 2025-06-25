@@ -85,11 +85,11 @@ export function Hero({ onSectionChange }: HeroProps) {
                         <Code className="h-5 w-5 text-[#5a8040]" />
                       </div>
                       <div>
-                        <h4 className="font-semibold text-foreground group-hover:text-[#5a8040] transition-colors duration-300">Projects</h4>
+                        <h4 className="font-semibold text-foreground group-hover:text-[#5a8040] transition-colors duration-300">Creations</h4>
                       </div>
                     </div>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                      Digital tools and experiences I've built along my coding journey.
+                      Projects, images, and music from my creative journey.
                     </p>
                   </div>
                 </Card>

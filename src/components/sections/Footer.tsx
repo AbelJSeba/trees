@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <footer className="border-t bg-muted/30">
       <div className="container px-4 py-8 md:px-6">
-        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
           <div className="flex items-center space-x-2">
             <Leaf className="h-5 w-5 text-accent" />
             <div className="flex flex-col">
@@ -14,7 +14,7 @@ export function Footer() {
             </div>
           </div>
           
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 md:flex-1 md:justify-center">
             <p className="text-sm text-muted-foreground flex items-center gap-1">
               Grown with <Heart className="h-3 w-3 text-red-500 fill-current" /> and curiosity
             </p>

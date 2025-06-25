@@ -5,7 +5,7 @@ import { BOOKS } from '../data/books';
 export const NAV_ITEMS: NavItem[] = [
   { id: 'home', label: 'Home', href: '#home' },
   { id: 'about', label: 'About', href: '#about' },
-  { id: 'projects', label: 'Projects', href: '#projects' },
+  { id: 'projects', label: 'Creations', href: '#projects' },
   { id: 'reading', label: 'Reading', href: '#reading' },
   { id: 'writing', label: 'Writing', href: '#writing' },
   { id: 'research', label: 'Research', href: '#research' },

@@ -65,23 +65,7 @@ const statusConfig = {
 
 export function Projects() {
   return (
-    <section className="min-h-screen py-20">
-      <div className="container px-4 md:px-6">
-        <div className="max-w-6xl mx-auto">
-          {/* Header */}
-          <motion.div 
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="text-4xl md:text-5xl font-medium text-accent">
-              Creations
-            </h1>
-          </motion.div>
-
-          {/* Projects Grid */}
-          <div className="space-y-8">
+    <div className="space-y-8">
             {sampleProjects.map((project, index) => {
               const StatusIcon = statusConfig[project.status].icon;
               
@@ -181,9 +165,6 @@ export function Projects() {
                 </motion.div>
               );
             })}
-          </div>
-        </div>
-      </div>
-    </section>
+    </div>
   );
 }

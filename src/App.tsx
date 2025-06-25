@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Header } from './components/sections/Header';
 import { Hero } from './components/sections/Hero';
 import { About } from './components/sections/About';
-import { Projects } from './components/sections/Projects';
+import { VirtualDesktop } from './components/VirtualDesktop';
 import { ReadingGarden } from './components/sections/ReadingGarden';
 import { WritingSection } from './components/sections/WritingSection';
 import { WritingDetail } from './components/sections/WritingDetail';
@@ -17,13 +17,22 @@ import {
 import { BOOKS } from './data';
 
 export default function App() {
-  const [activeSection, setActiveSection] = useState<SectionType>('home');
+  const [activeSection, setActiveSection] = useState<SectionType>('projects');
   const [selectedWriting, setSelectedWriting] = useState<WritingItem | null>(null);
   const [readingNavigationKey, setReadingNavigationKey] = useState(0);
+  const [headerVisible, setHeaderVisible] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   const handleSectionChange = (section: string) => {
     setActiveSection(section as SectionType);
     setSelectedWriting(null); // Clear selected writing when changing sections
+    
+    // Show/hide header based on section
+    if (section === 'projects') {
+      setHeaderVisible(false);
+    } else {
+      setHeaderVisible(true);
+    }
     
     // Increment key when navigating to reading to reset component state
     if (section === 'reading') {
@@ -37,6 +46,10 @@ export default function App() {
 
   const handleBackToWriting = () => {
     setSelectedWriting(null);
+  };
+
+  const toggleHeader = () => {
+    setHeaderVisible(!headerVisible);
   };
 
   const renderContent = () => {
@@ -62,11 +75,7 @@ export default function App() {
           </div>
         );
       case 'projects':
-        return (
-          <div className="bg-background">
-            <Projects />
-          </div>
-        );
+        return <VirtualDesktop onToggleHeader={toggleHeader} headerVisible={headerVisible} />;
       case 'reading':
         return (
           <ReadingGarden
@@ -107,11 +116,15 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header activeSection={activeSection} onSectionChange={handleSectionChange} />
-      <main className="flex-1">
+      <Header 
+        activeSection={activeSection} 
+        onSectionChange={handleSectionChange}
+        visible={headerVisible || activeSection !== 'projects'}
+      />
+      <main className={`flex-1 ${activeSection === 'projects' ? '' : 'pt-16'}`}>
         {renderContent()}
       </main>
-      <Footer />
+      {activeSection !== 'projects' && <Footer />}
     </div>
   );
 }

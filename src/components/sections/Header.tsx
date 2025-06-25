@@ -5,29 +5,40 @@ import { Button } from '../ui/button';
 interface HeaderProps {
   activeSection: string;
   onSectionChange: (section: string) => void;
+  visible?: boolean;
 }
 
-export function Header({ activeSection, onSectionChange }: HeaderProps) {
+export function Header({ activeSection, onSectionChange, visible = true }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  // Use different positioning for virtual desktop
+  const isVirtualDesktop = activeSection === 'projects';
+  const headerClasses = isVirtualDesktop 
+    ? `sticky top-0 z-[60] w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ${
+        visible ? 'block' : 'hidden'
+      }`
+    : `fixed top-0 z-[60] w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-transform duration-300 ${
+        visible ? 'translate-y-0' : '-translate-y-full'
+      }`;
 
   const navItems = [
     { id: 'home', label: 'Home' },
-    { id: 'projects', label: 'Projects' },
+    { id: 'projects', label: 'Creations' },
     { id: 'reading', label: 'Reading' },
     { id: 'writing', label: 'Writing' },
     { id: 'research', label: 'Research' },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className={headerClasses}>
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         <div className="flex items-center space-x-2">
           <Leaf className="h-6 w-6 text-accent" />
           <div className="flex flex-col">
-            <span className="hidden font-bold sm:inline-block">
+            <span className="font-bold">
               Abel's
             </span>
-            <span className="hidden text-xs text-muted-foreground sm:inline-block">
+            <span className="text-xs text-muted-foreground">
               Garden
             </span>
           </div>
