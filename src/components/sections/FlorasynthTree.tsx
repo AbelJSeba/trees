@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import * as FLORASYNTH from 'florasynth';
 
+
 interface FlorasynthTreeProps {
   className?: string;
 }
 
-export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
+function FlorasynthTreeComponent({ className = "" }: FlorasynthTreeProps) {
   const mountRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -19,28 +20,12 @@ export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [currentStage, setCurrentStage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   // Initialize Three.js scene
   useEffect(() => {
     if (!mountRef.current) return;
     
-    // Debug: Check what Florasynth exports
-    console.log('Florasynth exports:', {
-      Tree: !!FLORASYNTH.Tree,
-      Properties: !!FLORASYNTH.Properties,
-      Presets: !!FLORASYNTH.Presets,
-      TexturingUtils: !!FLORASYNTH.TexturingUtils,
-      allKeys: Object.keys(FLORASYNTH)
-    });
-    
-    // Debug ASH preset structure
-    console.log('ASH Preset:', FLORASYNTH.Presets.ASH);
-    
-    // Debug Tree constructor and methods
-    if (FLORASYNTH.Tree) {
-      console.log('Tree methods:', Object.getOwnPropertyNames(FLORASYNTH.Tree));
-      console.log('Tree.applyTextures:', typeof FLORASYNTH.Tree.applyTextures);
-    }
 
     // Scene setup
     const scene = new THREE.Scene();
@@ -258,8 +243,12 @@ export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
     try {
       setIsLoading(true);
       
-      // Fix Florasynth bug: Materials is referenced globally instead of FLORASYNTH.Materials
-      (globalThis as any).Materials = (FLORASYNTH as any).Materials;
+      // Check if Florasynth is properly loaded
+      if (!FLORASYNTH || !FLORASYNTH.Tree) {
+        console.warn('Florasynth not properly loaded');
+        setIsLoading(false);
+        return;
+      }
       
       // Remove tree from scene (exact documentation format)
       if (meshesRef.current) {
@@ -276,7 +265,10 @@ export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
 
       // Create ASH variation with embedded textures
       const ashVariationData = await createAshVariation();
+      
+      // Create properties using Florasynth API
       const customProperties = new FLORASYNTH.Properties(ashVariationData);
+      
       const tree = new FLORASYNTH.Tree(customProperties);
       
       // Generate meshes
@@ -333,6 +325,7 @@ export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
       setIsLoading(false);
     } catch (error) {
       console.error('Error generating tree:', error);
+      setHasError(true);
       setIsLoading(false);
     }
   };
@@ -390,6 +383,21 @@ export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
     'Ancient Wisdom'
   ];
 
+  // Show fallback if there's an error
+  if (hasError) {
+    return (
+      <div className={`relative aspect-square bg-gradient-to-br from-green-100 to-green-200 rounded-lg flex items-center justify-center ${className}`}>
+        <div className="text-center p-6">
+          <div className="text-6xl mb-4">🌳</div>
+          <h3 className="text-lg font-semibold text-green-800 mb-2">Digital Tree</h3>
+          <p className="text-sm text-green-600">
+            A beautiful tree grows here, representing the organic growth of knowledge and ideas.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={`relative w-full h-full ${className}`}>
       <div 
@@ -427,4 +435,8 @@ export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
       </div>
     </div>
   );
+}
+
+export function FlorasynthTree({ className = "" }: FlorasynthTreeProps) {
+  return <FlorasynthTreeComponent className={className} />;
 }
