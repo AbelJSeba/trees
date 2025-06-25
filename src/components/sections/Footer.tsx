@@ -4,7 +4,7 @@ import { Button } from '../ui/button';
 export function Footer() {
   return (
     <footer className="border-t bg-muted/30">
-      <div className="container px-4 py-8 md:px-6">
+      <div className="pl-10 pr-4 py-8 md:pr-6 max-w-full">
         <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
           <div className="flex items-center space-x-2">
             <Leaf className="h-5 w-5 text-accent" />

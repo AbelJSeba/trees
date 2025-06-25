@@ -42,7 +42,7 @@ export function Desktop({ wallpaper, onAppLaunch, onDesktopClick, selectedApp, o
   return (
     <div
       ref={desktopRef}
-      className="absolute inset-0 top-[24px]"
+      className="absolute top-[39px] left-0 right-0 bottom-0"
       style={wallpaperStyle}
       onClick={handleDesktopClick}
       onContextMenu={handleContextMenu}

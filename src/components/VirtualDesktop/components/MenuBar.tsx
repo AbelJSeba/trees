@@ -43,12 +43,12 @@ export function MenuBar({ activeApp, onWallpaperChange, onPowerAction, onToggleH
 
   return (
     <>
-      <div className="absolute top-0 left-0 right-0 h-6 bg-black/80 backdrop-blur-xl flex items-center justify-between px-3 text-white text-sm z-[9999]">
+      <div className="absolute top-0 left-0 right-0 h-[39px] bg-black/80 backdrop-blur-xl flex items-center justify-between px-3 text-white text-sm z-[9999]">
       {/* Left side - Apple menu and app name */}
       <div className="flex items-center gap-4">
         <div className="relative">
           <button
-            className="hover:bg-white/20 px-2 py-1 rounded transition-colors flex items-center"
+            className="hover:bg-white/20 px-2 py-0.5 rounded transition-colors flex items-center"
             onClick={() => setShowAppleMenu(!showAppleMenu)}
           >
             <img src="/icons/apple-logo.svg" alt="Apple" className="w-4 h-4" />
@@ -119,7 +119,7 @@ export function MenuBar({ activeApp, onWallpaperChange, onPowerAction, onToggleH
         
         <span className="font-semibold">{getAppName()}</span>
         
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 justify-center">
           {onToggleHeader && (
             <button 
               className="hover:bg-white/20 px-2 py-0.5 rounded transition-colors"
@@ -149,7 +149,7 @@ export function MenuBar({ activeApp, onWallpaperChange, onPowerAction, onToggleH
       {/* Right side - System icons and time */}
       <div className="flex items-center gap-3">
         <button 
-          className="hover:bg-white/20 p-1 rounded transition-colors"
+          className="hover:bg-white/20 px-2 py-0.5 rounded transition-colors"
           onClick={() => setIsMuted(!isMuted)}
           title={isMuted ? 'Unmute' : 'Mute'}
         >
