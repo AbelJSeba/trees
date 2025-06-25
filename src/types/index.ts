@@ -17,36 +17,16 @@ export interface ReadingItem extends BaseContentItem {
   textColor: string;
 }
 
-export interface WritingItem extends BaseContentItem {
-  type: 'essay' | 'poetry';
-  content: string;
-  tags?: string[];
-}
 
-export interface ResearchItem extends BaseContentItem {
-  tags: string[];
-}
 
 // Component Props Types
 export interface ContentSectionProps {
   title: string;
   description: string;
-  items: ReadingItem[] | ResearchItem[];
+  items: ReadingItem[];
   emptyMessage: string;
 }
 
-export interface WritingSectionProps {
-  title: string;
-  description: string;
-  items: WritingItem[];
-  emptyMessage: string;
-  onItemClick: (item: WritingItem) => void;
-}
-
-export interface WritingDetailProps extends Omit<WritingItem, 'tags'> {
-  onBack: () => void;
-  tags: string[];
-}
 
 export interface HeaderProps {
   activeSection: SectionType;
@@ -58,10 +38,10 @@ export interface HeroProps {
 }
 
 // Navigation Types
-export type SectionType = 'home' | 'about' | 'projects' | 'reading' | 'writing' | 'research';
+export type SectionType = 'home' | 'about' | 'projects' | 'reading';
 
 export interface NavItem {
   id: SectionType;
   label: string;
   href: string;
-} 
+}

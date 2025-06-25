@@ -52,7 +52,8 @@ export function VirtualDesktop({ onToggleHeader, headerVisible = false }: Virtua
         activeApp={windows.find(w => w.isActive)?.appType || null}
         onWallpaperChange={setWallpaper}
         onPowerAction={handlePowerAction}
-        onToggleHeader={onToggleHeader ? () => onToggleHeader() : undefined}
+        onToggleHeader={onToggleHeader}
+        headerVisible={headerVisible}
       />
       
       {/* Desktop */}

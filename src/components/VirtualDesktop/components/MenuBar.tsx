@@ -7,9 +7,10 @@ interface MenuBarProps {
   onWallpaperChange: (wallpaper: string) => void;
   onPowerAction: (action: 'sleep' | 'restart' | 'shutdown') => void;
   onToggleHeader?: () => void;
+  headerVisible?: boolean;
 }
 
-export function MenuBar({ activeApp, onWallpaperChange, onPowerAction, onToggleHeader }: MenuBarProps) {
+export function MenuBar({ activeApp, onWallpaperChange, onPowerAction, onToggleHeader, headerVisible = false }: MenuBarProps) {
   const [time, setTime] = useState(new Date());
   const [showAppleMenu, setShowAppleMenu] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -43,7 +44,7 @@ export function MenuBar({ activeApp, onWallpaperChange, onPowerAction, onToggleH
 
   return (
     <>
-      <div className="absolute top-0 left-0 right-0 h-[39px] bg-black/80 backdrop-blur-xl flex items-center justify-between px-3 text-white text-sm z-[9999]">
+      <div className={`absolute ${headerVisible ? 'top-8' : 'top-0'} left-0 right-0 h-[39px] bg-black/80 backdrop-blur-xl flex items-center justify-between px-3 text-white text-sm z-[9999]`}>
       {/* Left side - Apple menu and app name */}
       <div className="flex items-center gap-4">
         <div className="relative">
