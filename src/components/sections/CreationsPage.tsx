@@ -10,9 +10,10 @@ type CreationType = 'projects' | 'images' | 'music';
 
 interface CreationsPageProps {
   onHeaderToggle?: (visible: boolean) => void;
+  headerVisible?: boolean;
 }
 
-export function CreationsPage({ onHeaderToggle }: CreationsPageProps) {
+export function CreationsPage({ onHeaderToggle, headerVisible = false }: CreationsPageProps) {
   const [activeTab, setActiveTab] = useState<CreationType>('projects');
 
   const tabConfig = {
@@ -47,7 +48,7 @@ export function CreationsPage({ onHeaderToggle }: CreationsPageProps) {
     return (
       <section className="h-screen overflow-hidden">
         <div className="h-full w-full">
-          <Projects onHeaderToggle={onHeaderToggle} />
+          <Projects onHeaderToggle={onHeaderToggle} headerVisible={headerVisible} />
         </div>
       </section>
     );

@@ -8,13 +8,30 @@ export interface Track {
   coverUrl?: string;
 }
 
+export interface MenuItem {
+  id: string;
+  title: string;
+  type: 'submenu' | 'action' | 'setting';
+}
+
+export type Theme = 'light' | 'dark';
+
+export type ViewType = 'mainmenu' | 'musiclist' | 'nowplaying' | 'settings' | 'theme-settings';
+
 export interface MusicPlayerState {
   tracks: Track[];
   currentTrackIndex: number;
   isPlaying: boolean;
-  currentView: 'list' | 'nowplaying';
+  currentView: ViewType;
   selectedIndex: number;
   scrollOffset: number;
+  mainMenuItems: MenuItem[];
+  settingsMenuItems: MenuItem[];
+  themeMenuItems: MenuItem[];
+  currentTime: number;
+  duration: number;
+  theme: Theme;
+  navigationStack: ViewType[]; // For back navigation
 }
 
 export interface TouchZone {

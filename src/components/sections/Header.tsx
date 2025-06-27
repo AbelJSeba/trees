@@ -14,7 +14,7 @@ export function Header({ activeSection, onSectionChange, visible = true }: Heade
   // Use different positioning for virtual desktop
   const isVirtualDesktop = activeSection === 'projects';
   const headerClasses = isVirtualDesktop 
-    ? `fixed top-0 z-[60] w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ${
+    ? `fixed top-0 z-[10000] w-full border-b bg-white backdrop-blur supports-[backdrop-filter]:bg-white/95 ${
         visible ? 'block' : 'hidden'
       }`
     : `fixed top-0 z-[60] w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-transform duration-300 ${
@@ -30,8 +30,6 @@ export function Header({ activeSection, onSectionChange, visible = true }: Heade
     { id: 'home', label: 'Home' },
     { id: 'projects', label: 'Creations' },
     { id: 'reading', label: 'Reading' },
-    { id: 'writing', label: 'Writing' },
-    { id: 'research', label: 'Research' },
   ];
 
   return (
