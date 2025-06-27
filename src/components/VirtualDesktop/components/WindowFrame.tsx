@@ -70,7 +70,9 @@ export function WindowFrame({ window, onClose, onFocus, onUpdateState }: WindowF
     return (
       <motion.div
         ref={windowRef}
-        className="absolute"
+        className="absolute select-none"
+        data-window-frame="true"
+        data-interactive-app="true"
         style={{
           left: window.x,
           top: window.y,
@@ -99,14 +101,81 @@ export function WindowFrame({ window, onClose, onFocus, onUpdateState }: WindowF
           </button>
         </div>
         
-        {/* Invisible drag handle for iPod */}
+        {/* iPod Content - No background or borders */}
+        <AppComponent />
+        
+        {/* Draggable areas for iPod - larger areas that don't interfere with controls */}
+        
+        {/* Top area above screen - safe to drag */}
         <div 
-          className="absolute inset-0 cursor-move z-50"
+          className="absolute pointer-events-auto cursor-move"
+          style={{
+            top: '0px',
+            left: '0px', 
+            right: '0px',
+            height: '27px',
+          }}
           onMouseDown={handleMouseDown}
         />
         
-        {/* iPod Content - No background or borders */}
-        <AppComponent />
+        {/* Left side - avoiding screen and wheel areas */}
+        <div 
+          className="absolute pointer-events-auto cursor-move"
+          style={{
+            top: '27px',
+            left: '0px', 
+            width: '33px',
+            bottom: '290px',
+          }}
+          onMouseDown={handleMouseDown}
+        />
+        
+        {/* Right side - avoiding screen and wheel areas */}
+        <div 
+          className="absolute pointer-events-auto cursor-move"
+          style={{
+            top: '27px',
+            right: '0px', 
+            width: '33px',
+            bottom: '290px',
+          }}
+          onMouseDown={handleMouseDown}
+        />
+        
+        {/* Bottom area below wheel - safe to drag */}
+        <div 
+          className="absolute pointer-events-auto cursor-move"
+          style={{
+            bottom: '0px',
+            left: '0px', 
+            right: '0px',
+            height: '40px',
+          }}
+          onMouseDown={handleMouseDown}
+        />
+        
+        {/* Areas around the wheel (not over it) */}
+        <div 
+          className="absolute pointer-events-auto cursor-move"
+          style={{
+            top: '270px',
+            left: '33px', 
+            width: '100px',
+            height: '100px',
+          }}
+          onMouseDown={handleMouseDown}
+        />
+        
+        <div 
+          className="absolute pointer-events-auto cursor-move"
+          style={{
+            top: '270px',
+            right: '33px', 
+            width: '100px',
+            height: '100px',
+          }}
+          onMouseDown={handleMouseDown}
+        />
       </motion.div>
     );
   }
@@ -114,19 +183,31 @@ export function WindowFrame({ window, onClose, onFocus, onUpdateState }: WindowF
   return (
     <motion.div
       ref={windowRef}
-      className="absolute bg-white rounded-lg shadow-2xl overflow-hidden"
+      className="absolute bg-white rounded-t-lg shadow-xl border border-gray-300 overflow-hidden select-none"
+      data-window-frame="true"
+      data-interactive-app="true"
       style={{
         left: window.x,
         top: window.y,
         width: window.width,
         height: window.height,
-        zIndex: window.zIndex,
+        zIndex: window.isActive ? 1000 : window.zIndex,
       }}
-      initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.9, opacity: 0 }}
+      drag
+      dragMomentum={false}
+      onDrag={(event, info) => {
+        onUpdateState({
+          x: window.x + info.delta.x,
+          y: window.y + info.delta.y,
+        });
+      }}
+      onClick={() => onFocus()}
+      initial={false}
+      animate={{ 
+        scale: window.isMinimized ? 0 : 1,
+        opacity: window.isMinimized ? 0 : 1,
+      }}
       transition={{ duration: 0.2 }}
-      onMouseDown={handleMouseDown}
     >
       {/* Title Bar */}
       <div className="window-titlebar h-8 bg-gray-100 border-b border-gray-200 flex items-center px-3 cursor-move">
