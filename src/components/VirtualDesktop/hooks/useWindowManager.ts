@@ -12,6 +12,8 @@ const getDefaultWindowProps = (appType: AppType): Partial<WindowState> => {
       return { title: 'Photos', width: 640, height: 480 };
     case 'Files':
       return { title: 'Projects', width: 800, height: 600 };
+    case 'Midjourney':
+      return { title: 'Midjourney Gallery', width: 900, height: 700 };
     default:
       return { title: 'Window', width: 600, height: 400 };
   }

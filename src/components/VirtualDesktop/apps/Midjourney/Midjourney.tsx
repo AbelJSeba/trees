@@ -1,37 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-interface ImageData {
-  id: string;
-  src: string;
-  name: string;
-  size?: string;
-  date?: string;
-}
+import { useImageLoader, ImageData } from './useImageLoader';
 
 export function Midjourney() {
-  const [images, setImages] = useState<ImageData[]>([]);
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [folderPath, setFolderPath] = useState('/midjourney-images'); // Configurable folder path
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [folderPath, setFolderPath] = useState<string>('');
+  const [showSettings, setShowSettings] = useState(false);
+  
+  const { images, loading, error } = useImageLoader({ 
+    folderPath: folderPath || undefined,
+    usePlaceholders: !folderPath 
+  });
 
-  // Placeholder images for demo - replace with actual folder scanning
-  useEffect(() => {
-    // In a real implementation, this would scan the folder
-    const placeholderImages: ImageData[] = Array.from({ length: 12 }, (_, i) => ({
-      id: `img-${i}`,
-      src: `https://picsum.photos/seed/${i}/400/300`,
-      name: `midjourney-${i + 1}.png`,
-      size: `${Math.floor(Math.random() * 5 + 1)}MB`,
-      date: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toLocaleDateString()
-    }));
-    
-    setImages(placeholderImages);
-    setLoading(false);
-  }, [folderPath]);
-
-  const filteredImages = images.filter(img => 
+  const filteredImages = images.filter((img: ImageData) => 
     img.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -44,15 +27,29 @@ export function Midjourney() {
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === 'Escape' && selectedImage) {
-      handleCloseModal();
+    if (e.key === 'Escape') {
+      if (selectedImage) {
+        handleCloseModal();
+      } else if (showSettings) {
+        setShowSettings(false);
+      }
+    }
+    
+    // Navigate through images with arrow keys when modal is open
+    if (selectedImage && filteredImages.length > 0) {
+      const currentIndex = filteredImages.findIndex(img => img.id === selectedImage.id);
+      if (e.key === 'ArrowLeft' && currentIndex > 0) {
+        setSelectedImage(filteredImages[currentIndex - 1]);
+      } else if (e.key === 'ArrowRight' && currentIndex < filteredImages.length - 1) {
+        setSelectedImage(filteredImages[currentIndex + 1]);
+      }
     }
   };
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedImage]);
+  }, [selectedImage, showSettings, filteredImages]);
 
   return (
     <div className="h-full w-full bg-gray-900 text-white overflow-hidden flex flex-col">
@@ -62,8 +59,41 @@ export function Midjourney() {
           <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
             Midjourney Gallery
           </h1>
-          <div className="text-sm text-gray-400">
-            {filteredImages.length} images
+          <div className="flex items-center gap-4">
+            <div className="text-sm text-gray-400">
+              {filteredImages.length} images
+            </div>
+            
+            {/* View Mode Toggle */}
+            <div className="flex gap-1 bg-gray-700 rounded-lg p-1">
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`p-1.5 rounded ${viewMode === 'grid' ? 'bg-gray-600 text-white' : 'text-gray-400'}`}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                </svg>
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`p-1.5 rounded ${viewMode === 'list' ? 'bg-gray-600 text-white' : 'text-gray-400'}`}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+            
+            {/* Settings Button */}
+            <button
+              onClick={() => setShowSettings(!showSettings)}
+              className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </button>
           </div>
         </div>
         
@@ -92,19 +122,49 @@ export function Midjourney() {
         </div>
       </div>
 
-      {/* Gallery Grid */}
+      {/* Settings Panel */}
+      <AnimatePresence>
+        {showSettings && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="bg-gray-800 border-b border-gray-700 overflow-hidden"
+          >
+            <div className="p-4">
+              <label className="block text-sm font-medium mb-2">Image Folder Path</label>
+              <input
+                type="text"
+                value={folderPath}
+                onChange={(e) => setFolderPath(e.target.value)}
+                placeholder="/path/to/midjourney/images"
+                className="w-full px-3 py-2 bg-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+              <p className="mt-2 text-xs text-gray-400">
+                Enter the path to your Midjourney images folder. Leave empty to use placeholder images.
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Gallery Content */}
       <div className="flex-1 overflow-y-auto p-4">
         {loading ? (
           <div className="flex items-center justify-center h-full">
             <div className="text-gray-400">Loading images...</div>
           </div>
+        ) : error ? (
+          <div className="flex items-center justify-center h-full">
+            <div className="text-red-400">{error}</div>
+          </div>
         ) : filteredImages.length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <div className="text-gray-400">No images found</div>
           </div>
-        ) : (
+        ) : viewMode === 'grid' ? (
           <motion.div 
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
@@ -114,7 +174,7 @@ export function Midjourney() {
                 key={image.id}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.05 }}
+                transition={{ delay: index * 0.03 }}
                 className="group relative aspect-[4/3] bg-gray-800 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-purple-500 transition-all"
                 onClick={() => handleImageClick(image)}
               >
@@ -131,6 +191,38 @@ export function Midjourney() {
                       <span>{image.size}</span>
                       <span>{image.date}</span>
                     </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        ) : (
+          <motion.div
+            className="space-y-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            {filteredImages.map((image, index) => (
+              <motion.div
+                key={image.id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.03 }}
+                className="flex items-center gap-4 p-3 bg-gray-800 rounded-lg hover:bg-gray-700 cursor-pointer transition-colors"
+                onClick={() => handleImageClick(image)}
+              >
+                <img
+                  src={image.src}
+                  alt={image.name}
+                  className="w-16 h-12 object-cover rounded"
+                  loading="lazy"
+                />
+                <div className="flex-1">
+                  <p className="font-medium">{image.name}</p>
+                  <div className="flex gap-4 text-sm text-gray-400 mt-1">
+                    <span>{image.size}</span>
+                    <span>{image.date}</span>
                   </div>
                 </div>
               </motion.div>
@@ -161,6 +253,42 @@ export function Midjourney() {
                 alt={selectedImage.name}
                 className="max-w-full max-h-[80vh] object-contain rounded-lg"
               />
+              
+              {/* Navigation Arrows */}
+              {filteredImages.length > 1 && (
+                <>
+                  {filteredImages.findIndex(img => img.id === selectedImage.id) > 0 && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const currentIndex = filteredImages.findIndex(img => img.id === selectedImage.id);
+                        setSelectedImage(filteredImages[currentIndex - 1]);
+                      }}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-800/80 hover:bg-gray-700 rounded-full flex items-center justify-center text-white transition-colors"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                  )}
+                  
+                  {filteredImages.findIndex(img => img.id === selectedImage.id) < filteredImages.length - 1 && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const currentIndex = filteredImages.findIndex(img => img.id === selectedImage.id);
+                        setSelectedImage(filteredImages[currentIndex + 1]);
+                      }}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-800/80 hover:bg-gray-700 rounded-full flex items-center justify-center text-white transition-colors"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  )}
+                </>
+              )}
+              
               <div className="absolute top-4 right-4">
                 <button
                   onClick={handleCloseModal}
@@ -176,6 +304,9 @@ export function Midjourney() {
                 <div className="flex gap-4 text-sm text-gray-300">
                   <span>Size: {selectedImage.size}</span>
                   <span>Date: {selectedImage.date}</span>
+                  <span>
+                    {filteredImages.findIndex(img => img.id === selectedImage.id) + 1} of {filteredImages.length}
+                  </span>
                 </div>
               </div>
             </motion.div>
