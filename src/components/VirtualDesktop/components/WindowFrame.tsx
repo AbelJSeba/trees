@@ -4,6 +4,7 @@ import { WindowState } from '../types';
 import { iPod } from '../apps/iPod/iPod';
 import { PhotoBooth } from '../apps/PhotoBooth/PhotoBooth';
 import { Files } from '../apps/Files/Files';
+import { Midjourney } from '../apps/Midjourney/Midjourney';
 
 interface WindowFrameProps {
   window: WindowState;
@@ -16,6 +17,7 @@ const APP_COMPONENTS = {
   iPod: iPod,
   PhotoBooth: PhotoBooth,
   Files: Files,
+  Midjourney: Midjourney,
 };
 
 export function WindowFrame({ window, onClose, onFocus, onUpdateState }: WindowFrameProps) {
