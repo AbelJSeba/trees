@@ -199,12 +199,12 @@ export function Files() {
                 `}
               >
                 <div className="flex-1 px-3 flex items-center gap-2">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path 
-                      d="M3 2.5C3 2.22386 3.22386 2 3.5 2H6.79289C6.92494 2 7.05135 2.05268 7.14645 2.14645L8.85355 3.85355C8.94865 3.94732 9.07506 4 9.20711 4H12.5C12.7761 4 13 4.22386 13 4.5V12.5C13 12.7761 12.7761 13 12.5 13H3.5C3.22386 13 3 12.7761 3 12.5V2.5Z" 
-                      fill={selectedItem === project.name ? "#ffffff" : "#3f8cf2"}
-                    />
-                  </svg>
+                  <img 
+                    src="/icons/folder.svg" 
+                    width="16" 
+                    height="16" 
+                    alt="Folder"
+                  />
                   <span className={selectedItem === project.name ? 'text-white' : 'text-[#1d1d1f]'}>
                     {project.name}
                   </span>
