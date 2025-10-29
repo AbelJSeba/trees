@@ -1,13 +1,20 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FlorasynthTree } from './FlorasynthTree';
-import { Card } from '../ui/card';
-import { Badge } from '../ui/badge';
-import { Sprout, BookOpen, Microscope, Code, ChevronLeft, ChevronRight } from 'lucide-react';
-import { HeroBackgroundGraph } from './HeroBackgroundGraph';
+import { useState, useEffect, useCallback, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FlorasynthTree } from "./FlorasynthTree";
+import { Card } from "../ui/card";
+import { Badge } from "../ui/badge";
+import {
+  Sprout,
+  BookOpen,
+  Microscope,
+  Code,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { HeroBackgroundGraph } from "./HeroBackgroundGraph";
 
-import { HeroProps } from '../../types';
-import { PROJECT_DOCUMENTS } from '../../data/projectDocuments';
+import { HeroProps } from "../../types";
+import { PROJECT_DOCUMENTS } from "../../data/projectDocuments";
 
 export function Hero({ onSectionChange }: HeroProps) {
   const documents = PROJECT_DOCUMENTS;
@@ -35,17 +42,17 @@ export function Hero({ onSectionChange }: HeroProps) {
   }, [startAutoPlay, stopAutoPlay]);
 
   const handleNavigate = useCallback(
-    (direction: 'prev' | 'next') => {
+    (direction: "prev" | "next") => {
       if (documents.length === 0) return;
       setActiveDocumentIndex((prev) => {
-        if (direction === 'next') {
+        if (direction === "next") {
           return (prev + 1) % documents.length;
         }
         return (prev - 1 + documents.length) % documents.length;
       });
       startAutoPlay();
     },
-    [documents.length, startAutoPlay]
+    [documents.length, startAutoPlay],
   );
 
   const handleSelect = useCallback(
@@ -54,7 +61,7 @@ export function Hero({ onSectionChange }: HeroProps) {
       setActiveDocumentIndex(index);
       startAutoPlay();
     },
-    [startAutoPlay]
+    [startAutoPlay],
   );
 
   const hasDocuments = documents.length > 0;
@@ -64,10 +71,10 @@ export function Hero({ onSectionChange }: HeroProps) {
 
   return (
     <div className="bg-background">
-      <section className="relative py-16 md:py-20">
+      <section className="relative isolate overflow-hidden py-16 md:py-20">
         <div className="container px-4 md:px-6">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2.15fr)] lg:gap-16 items-start w-full max-w-7xl mx-auto mb-16">
-            <div className="flex flex-col gap-12">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2.15fr)] lg:gap-16 items-stretch w-full max-w-7xl mx-auto mb-16">
+            <div className="flex flex-col gap-12 h-full">
               <div className="relative rounded-3xl border border-transparent p-0 min-h-[320px] sm:min-h-[360px]">
                 <HeroBackgroundGraph className="pointer-events-none absolute inset-0 opacity-80 mix-blend-screen" />
                 <div className="relative space-y-6 p-0 sm:p-1">
@@ -82,7 +89,7 @@ export function Hero({ onSectionChange }: HeroProps) {
                   </div>
                   <div className="flex flex-col gap-2 min-[400px]:flex-row">
                     <button
-                      onClick={() => onSectionChange('reading')}
+                      onClick={() => onSectionChange("reading")}
                       className="flex items-center justify-center gap-2 px-4 py-2 text-foreground border border-transparent rounded-md hover:bg-muted hover:border-border transition-all duration-300 focus:outline-none focus:ring-0 active:outline-none active:ring-0"
                     >
                       <BookOpen className="h-4 w-4" />
@@ -90,14 +97,15 @@ export function Hero({ onSectionChange }: HeroProps) {
                     </button>
                   </div>
                   <blockquote className="relative mt-6 border-l border-accent/30 pl-4 text-sm text-muted-foreground max-w-xl">
-                    “Do not neglect to show hospitality to strangers, for thereby some have entertained angels unawares.”
+                    “Do not neglect to show hospitality to strangers, for
+                    thereby some have entertained angels unawares.”
                   </blockquote>
                 </div>
               </div>
 
               {hasDocuments && activeDocument && (
-                <div className="relative mt-10 lg:mt-8">
-                  <Card className="relative flex flex-col overflow-visible border border-border bg-gradient-to-br from-muted/40 via-background to-muted/20 shadow-md rounded-3xl min-h-[200px]">
+                <div className="relative mt-auto pt-10 lg:pt-8">
+                  <Card className="relative flex flex-col overflow-visible border border-border bg-gradient-to-br from-muted/40 via-background to-muted/20 shadow-md rounded-3xl min-h-[180px] lg:min-h-[220px]">
                     <div className="absolute left-8 top-0 flex gap-2 z-20 -translate-y-full">
                       <button
                         type="button"
@@ -114,7 +122,7 @@ export function Hero({ onSectionChange }: HeroProps) {
                         taste
                       </button>
                     </div>
-                    <div className="relative flex-1 p-6 sm:p-8 pb-10">
+                    <div className="relative flex-1 p-6 sm:p-8 pb-4">
                       <div className="grid gap-4 mb-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
                         <div className="min-w-[220px]">
                           <p className="text-xs uppercase tracking-widest text-muted-foreground/80 mb-1">
@@ -146,81 +154,55 @@ export function Hero({ onSectionChange }: HeroProps) {
                           <p className="text-sm text-muted-foreground leading-relaxed">
                             {activeDocument.summary}
                           </p>
-                          <div className="flex items-center gap-4 text-xs text-muted-foreground/80">
+                          <div className="flex items-center justify-between gap-4 text-xs text-muted-foreground/80">
                             <span>{activeDocument.date}</span>
-                            <span>•</span>
                             <span>{documents.length} documents in cycle</span>
+                            {documents.length > 1 && (
+                              <div className="flex items-center gap-2.5">
+                                <button
+                                  type="button"
+                                  onClick={() => handleNavigate('prev')}
+                                  className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border bg-background/90 backdrop-blur hover:bg-muted transition-colors"
+                                  aria-label="Previous document"
+                                >
+                                  <ChevronLeft className="h-4 w-4" />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleNavigate('next')}
+                                  className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border bg-background/90 backdrop-blur hover:bg-muted transition-colors"
+                                  aria-label="Next document"
+                                >
+                                  <ChevronRight className="h-4 w-4" />
+                                </button>
+                              </div>
+                            )}
                           </div>
                         </motion.div>
                       </AnimatePresence>
-                    </div>
-
-                    <div className="flex items-center justify-between px-6 sm:px-8 pb-4 text-xs font-mono text-muted-foreground/80">
-                      <div className="flex items-center gap-3">
-                        <span className="inline-flex items-center gap-1">
-                          <span className="text-sm text-foreground">λ</span>
-                          <span className="tracking-wide">open</span>
-                        </span>
-                        {documents.length > 1 && (
-                          <div className="flex items-center gap-2">
-                            {documents.map((doc, index) => {
-                              const isActive = index === activeDocumentIndex;
-                              return (
-                                <button
-                                  key={doc.name}
-                                  type="button"
-                                  onClick={() => handleSelect(index)}
-                                  className={`h-2.5 rounded-full transition-all ${
-                                    isActive
-                                      ? 'w-6 bg-foreground'
-                                      : 'w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60'
-                                  }`}
-                                  aria-label={`Show ${doc.name}`}
-                                />
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-                      {documents.length > 1 && (
-                        <div className="flex items-center gap-3">
-                          <button
-                            type="button"
-                            onClick={() => handleNavigate('prev')}
-                            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/90 backdrop-blur hover:bg-muted transition-colors"
-                            aria-label="Previous document"
-                          >
-                            <ChevronLeft className="h-5 w-5" />
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleNavigate('next')}
-                            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/90 backdrop-blur hover:bg-muted transition-colors"
-                            aria-label="Next document"
-                          >
-                            <ChevronRight className="h-5 w-5" />
-                          </button>
-                        </div>
-                      )}
                     </div>
                   </Card>
                 </div>
               )}
             </div>
 
-            <div className="relative space-y-6 lg:ml-auto lg:max-w-[500px] w-full">
-              <Card className="p-6 bg-gradient-to-br from-accent/10 to-secondary border-accent/20 h-full min-h-[430px] flex flex-col">
+            <div className="relative flex flex-col gap-6 lg:ml-auto lg:max-w-[500px] w-full h-full">
+              <Card className="p-6 bg-gradient-to-br from-accent/10 to-secondary border-accent/20 flex flex-col min-h-[430px]">
                 <FlorasynthTree className="aspect-square mb-4" />
                 <div className="space-y-2">
                   <h3 className="text-lg">Not GenAI, just a lot of Geometry</h3>
                   <p className="text-sm text-muted-foreground">
-                    I really like trees—here are some trees for you to play with.
+                    I really like trees, so here are some trees for you to play
+                    with. I’ll add more tree types and customization soon.
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Tap “New Tree” above the canvas to grow a fresh one.
                   </p>
                 </div>
               </Card>
 
               <motion.div
-                className="grid gap-5 sm:grid-cols-2"
+                className="grid gap-5 sm:grid-cols-2 mt-auto"
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, staggerChildren: 0.1 }}
               >
@@ -231,7 +213,7 @@ export function Hero({ onSectionChange }: HeroProps) {
                 >
                   <Card
                     className="group relative overflow-hidden cursor-pointer transition-all duration-300 border border-border/60 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-[#7fb069]/30 hover:border-[#7fb069]/50 bg-gradient-to-br from-[#7fb069]/12 via-white to-[#7fb069]/8 min-h-[135px]"
-                    onClick={() => onSectionChange('projects')}
+                    onClick={() => onSectionChange("projects")}
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-[#7fb069]/30 via-transparent to-[#7fb069]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="relative p-6">
@@ -259,7 +241,7 @@ export function Hero({ onSectionChange }: HeroProps) {
                 >
                   <Card
                     className="group relative overflow-hidden cursor-pointer transition-all duration-300 border border-border/60 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/25 hover:border-teal-400/50 bg-gradient-to-br from-teal-50/40 via-white to-emerald-50/30 min-h-[135px]"
-                    onClick={() => onSectionChange('research')}
+                    onClick={() => onSectionChange("research")}
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-teal-100/25 via-transparent to-emerald-100/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="relative p-6">

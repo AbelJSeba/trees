@@ -38,7 +38,7 @@ export interface HeroProps {
 }
 
 // Navigation Types
-export type SectionType = 'home' | 'about' | 'projects' | 'reading';
+export type SectionType = 'home' | 'about' | 'projects' | 'reading' | 'research';
 
 export interface NavItem {
   id: SectionType;

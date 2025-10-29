@@ -37,7 +37,5 @@ export const DEFAULT_WALLPAPERS = [
 
 export const DESKTOP_APPS: DesktopApp[] = [
   { id: '1', name: 'iPod', type: 'iPod', icon: '🎵', x: 20, y: 20 },
-  { id: '2', name: 'Photos', type: 'PhotoBooth', icon: '/icons/apple-photos.svg', x: 20, y: 120 },
-  { id: '3', name: 'Projects', type: 'Files', icon: '/icons/files.svg', x: 20, y: 220 },
-  { id: '4', name: 'Documents', type: 'TextEdit', icon: '📝', x: 20, y: 320 },
+  { id: '2', name: 'Projects', type: 'Files', icon: '/icons/files.svg', x: 20, y: 120 },
 ];

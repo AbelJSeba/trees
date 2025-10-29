@@ -143,6 +143,90 @@
   }
 }
 
+
+@keyframes construction-truck-drive {
+  0% {
+    transform: translate3d(calc(-100% - 8vw), 0, 0);
+  }
+  100% {
+    transform: translate3d(calc(100vw + 4vw), 0, 0);
+  }
+}
+
+@keyframes construction-wheel-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@layer components {
+  .construction-banner {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(1rem, 2vw, 2.5rem) 0 0;
+  }
+
+  .construction-banner__track {
+    position: relative;
+    min-height: clamp(90px, 16vw, 160px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: clamp(0.4rem, 0.9vw, 1.25rem);
+  }
+
+  .construction-banner__truck {
+    position: absolute;
+    inset-inline-start: 0;
+    bottom: clamp(-0.7rem, -0.95vw, -0.3rem);
+    width: clamp(55px, 8vw, 120px);
+    animation: construction-truck-drive 10s linear infinite;
+    will-change: transform;
+  }
+
+  .construction-banner__truck svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.18));
+  }
+
+  .construction-banner__truck .wheel-group {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: construction-wheel-spin 1.1s linear infinite;
+  }
+
+  .construction-banner__truck .wheel-group--middle {
+    animation-duration: 1s;
+  }
+
+  .construction-banner__truck .wheel-group--front {
+    animation-duration: 0.9s;
+  }
+
+  .construction-banner__tape {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(0.15rem, 0.35vw, 0.4rem) 0;
+  }
+
+  .construction-banner__tape-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: clamp(18px, 2vw, 28px);
+    object-fit: cover;
+    user-select: none;
+  }
+}
+
 /**
  * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
  */

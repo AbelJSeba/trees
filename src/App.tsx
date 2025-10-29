@@ -4,7 +4,9 @@ import { Hero } from './components/sections/Hero';
 import { About } from './components/sections/About';
 import { CreationsPage } from './components/sections/CreationsPage';
 import { ReadingGarden } from './components/sections/ReadingGarden';
+import { ResearchSection } from './components/sections/ResearchSection';
 import { Footer } from './components/sections/Footer';
+import { ConstructionBanner } from './components/sections/ConstructionBanner';
 
 import { SectionType } from './types';
 import { BOOKS } from './data';
@@ -50,6 +52,8 @@ export default function App() {
             />
           </div>
         );
+      case 'research':
+        return <ResearchSection />;
       default:
         return <Hero onSectionChange={handleSectionChange} />;
     }
@@ -66,7 +70,12 @@ export default function App() {
       <main className="flex-1">
         {renderContent()}
       </main>
-      {activeSection !== 'projects' && <Footer />}
+      {activeSection !== 'projects' && (
+        <>
+          <ConstructionBanner />
+          <Footer />
+        </>
+      )}
     </div>
   );
 }
