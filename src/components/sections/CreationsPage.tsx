@@ -9,11 +9,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 type CreationType = 'projects' | 'images' | 'music';
 
 interface CreationsPageProps {
-  onHeaderToggle?: (visible: boolean) => void;
-  headerVisible?: boolean;
+  onNavigateHome?: () => void;
 }
 
-export function CreationsPage({ onHeaderToggle, headerVisible = false }: CreationsPageProps) {
+export function CreationsPage({ onNavigateHome }: CreationsPageProps) {
   const [activeTab, setActiveTab] = useState<CreationType>('projects');
 
   const tabConfig = {
@@ -48,7 +47,7 @@ export function CreationsPage({ onHeaderToggle, headerVisible = false }: Creatio
     return (
       <section className="h-screen overflow-hidden">
         <div className="h-full w-full">
-          <Projects onHeaderToggle={onHeaderToggle} headerVisible={headerVisible} />
+          <Projects onNavigateHome={onNavigateHome} />
         </div>
       </section>
     );

@@ -6,6 +6,7 @@ describe('MenuBar', () => {
   const mockProps = {
     activeApp: null,
     onWallpaperChange: vi.fn(),
+    onPowerAction: vi.fn(),
   };
 
   it('renders menu bar with default app name', () => {
@@ -28,7 +29,7 @@ describe('MenuBar', () => {
     render(<MenuBar {...mockProps} />);
     const appleButton = screen.getByAltText('Apple');
     fireEvent.click(appleButton);
-    expect(screen.getByText('About This Mac')).toBeInTheDocument();
+    expect(screen.getByText('About This Device')).toBeInTheDocument();
     expect(screen.getByText('Change Wallpaper')).toBeInTheDocument();
   });
 
@@ -48,6 +49,14 @@ describe('MenuBar', () => {
     expect(screen.getByText('View')).toBeInTheDocument();
     expect(screen.getByText('Window')).toBeInTheDocument();
     expect(screen.getByText('Help')).toBeInTheDocument();
+  });
+
+  it('navigates home when home button clicked', () => {
+    const onNavigateHome = vi.fn();
+    render(<MenuBar {...mockProps} onNavigateHome={onNavigateHome} />);
+    const homeButton = screen.getByText('Home');
+    fireEvent.click(homeButton);
+    expect(onNavigateHome).toHaveBeenCalled();
   });
 
   it('toggles volume mute state', () => {

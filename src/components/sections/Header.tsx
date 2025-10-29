@@ -1,6 +1,4 @@
-import { useState } from 'react';
-import { Menu, X, Leaf } from 'lucide-react';
-import { Button } from '../ui/button';
+import { Leaf } from 'lucide-react';
 
 interface HeaderProps {
   activeSection: string;
@@ -9,8 +7,6 @@ interface HeaderProps {
 }
 
 export function Header({ activeSection, onSectionChange, visible = true }: HeaderProps) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
   // Use different positioning for virtual desktop
   const isVirtualDesktop = activeSection === 'projects';
   const headerClasses = isVirtualDesktop 
@@ -65,45 +61,13 @@ export function Header({ activeSection, onSectionChange, visible = true }: Heade
         </nav>
 
         {/* Mobile Navigation */}
-        {(
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
-          </Button>
-        )}
+        <button
+          onClick={() => onSectionChange('home')}
+          className="md:hidden px-3 py-2 rounded-md border border-transparent text-sm font-medium text-foreground/80 transition-all duration-200 hover:text-foreground hover:border-foreground/20"
+        >
+          Home
+        </button>
       </div>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="border-b bg-background md:hidden">
-          <nav className="flex flex-col space-y-3 pl-10 pr-4 py-4">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => {
-                  onSectionChange(item.id);
-                  setIsMobileMenuOpen(false);
-                }}
-                className={`text-left px-3 py-2 rounded-md border border-transparent transition-all duration-200 hover:border-foreground/20 hover:text-foreground ${
-                  activeSection === item.id
-                    ? 'text-foreground border-foreground/30'
-                    : 'text-foreground/60'
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </nav>
-        </div>
-      )}
     </header>
   );
 }
