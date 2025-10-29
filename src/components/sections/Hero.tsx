@@ -55,15 +55,6 @@ export function Hero({ onSectionChange }: HeroProps) {
     [documents.length, startAutoPlay],
   );
 
-  const handleSelect = useCallback(
-    (index: number) => {
-      if (documents.length === 0) return;
-      setActiveDocumentIndex(index);
-      startAutoPlay();
-    },
-    [startAutoPlay],
-  );
-
   const hasDocuments = documents.length > 0;
   const activeDocument = hasDocuments
     ? documents[activeDocumentIndex % documents.length]

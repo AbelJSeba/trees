@@ -2,7 +2,7 @@
 export { Header } from './Header';
 export { Hero } from './Hero';
 export { About } from './About';
-export { Projects } from './Projects';
+export { default as Projects } from './Projects';
 export { ContentSection } from './ContentSection';
 export { ReadingGarden } from './ReadingGarden';
 export { Bookshelf } from './Bookshelf';

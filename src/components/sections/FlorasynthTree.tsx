@@ -85,16 +85,16 @@ const createRandomTreeConfig = async () => {
 
 function FlorasynthTreeComponent({ className = "" }: FlorasynthTreeProps) {
   const mountRef = useRef<HTMLDivElement>(null);
-  const sceneRef = useRef<THREE.Scene | null>(null);
-  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
-  const treeGroupRef = useRef<THREE.Group | null>(null);
+  const sceneRef = useRef<any>(null);
+  const rendererRef = useRef<any>(null);
+  const cameraRef = useRef<any>(null);
+  const treeGroupRef = useRef<any>(null);
   const animationIdRef = useRef<number | null>(null);
   const isDraggingRef = useRef(false);
   const previousMousePositionRef = useRef({ x: 0, y: 0 });
 
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [currentStage, setCurrentStage] = useState(0);
+  const [, setScrollProgress] = useState(0);
+  const [, setCurrentStage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
@@ -132,7 +132,7 @@ function FlorasynthTreeComponent({ className = "" }: FlorasynthTreeProps) {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio
 
     // Handle WebGL context loss
-    renderer.domElement.addEventListener("webglcontextlost", (event) => {
+    renderer.domElement.addEventListener("webglcontextlost", (event: Event) => {
       event.preventDefault();
       console.warn("WebGL context lost");
     });
@@ -297,21 +297,20 @@ function FlorasynthTreeComponent({ className = "" }: FlorasynthTreeProps) {
 
   const meshesRef = useRef<FLORASYNTH.TreeMeshes | null>(null);
 
-  const disposeObject = (object: THREE.Object3D) => {
-    object.traverse((child: THREE.Object3D) => {
-      if (!(child as THREE.Mesh).isMesh) return;
+  const disposeObject = (object: any) => {
+    object.traverse((child: any) => {
+      if (!(child as any).isMesh) return;
 
-      const mesh = child as THREE.Mesh;
+      const mesh = child as any;
       mesh.geometry.dispose();
       const materials = Array.isArray(mesh.material)
         ? mesh.material
         : [mesh.material];
 
-      materials.forEach((material) => {
+      materials.forEach((material: any) => {
         if (!material) return;
-        const typedMaterial = material as THREE.Material;
-        if (typeof typedMaterial.dispose === "function") {
-          typedMaterial.dispose();
+        if (typeof material.dispose === "function") {
+          material.dispose();
         }
       });
     });
@@ -459,16 +458,6 @@ function FlorasynthTreeComponent({ className = "" }: FlorasynthTreeProps) {
 
   // Generate tree only once on mount
   // No scroll-based regeneration
-
-  const stageNames = [
-    "Rich Soil",
-    "Planted Seed",
-    "First Sprout",
-    "Young Sapling",
-    "Growing Tree",
-    "Mature Tree",
-    "Ancient Wisdom",
-  ];
 
   // Show fallback if there's an error
   if (hasError) {

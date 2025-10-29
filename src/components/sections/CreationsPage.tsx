@@ -1,14 +1,12 @@
-import { useState } from 'react';
-import Projects from './Projects';
-import { useMediaQuery } from '../../utils/useMediaQuery';
-import { motion } from 'framer-motion';
+import Projects from "./Projects";
+import { useMediaQuery } from "../../utils/useMediaQuery";
+import { motion } from "framer-motion";
 
 interface CreationsPageProps {
   onNavigateHome?: () => void;
 }
 
 export function CreationsPage({ onNavigateHome }: CreationsPageProps) {
-  const [activeTab] = useState<'projects'>('projects');
   const isMobile = useMediaQuery('(max-width: 767px)');
 
   if (isMobile) {

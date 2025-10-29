@@ -30,56 +30,6 @@ export function IPodControls({
   onTogglePlayPause
 }: iPodControlsProps) {
   
-  const isInButtonExclusionZone = (degrees: number) => {
-    const buttonExclusionZones = [
-      { center: 270, range: 30 }, // Menu (top)
-      { center: 180, range: 30 }, // Previous (left)  
-      { center: 0, range: 30 },   // Next (right)
-      { center: 90, range: 30 }   // Play/Pause (bottom)
-    ];
-    
-    return buttonExclusionZones.some(zone => {
-      let diff = Math.abs(degrees - zone.center);
-      // Handle wrap-around for 0/360 degrees
-      if (diff > 180) diff = 360 - diff;
-      return diff <= zone.range;
-    });
-  };
-
-  const handleWheelInteraction = (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const center = { x: 189, y: 442 };
-    const mousePos = { 
-      x: e.clientX - rect.left, 
-      y: e.clientY - rect.top 
-    };
-    
-    const distance = Math.sqrt(
-      Math.pow(mousePos.x - center.x, 2) + 
-      Math.pow(mousePos.y - center.y, 2)
-    );
-    
-    if (distance <= 41) {
-      // Inner circle - Center button action
-      onCenterPress();
-    } else if (distance > 41 && distance <= 114) {
-      // Outer ring - Scroll wheel action (but exclude button zones)
-      const angle = Math.atan2(mousePos.y - center.y, mousePos.x - center.x);
-      const degrees = (angle * 180 / Math.PI + 360) % 360;
-      
-      if (isInButtonExclusionZone(degrees)) {
-        return; // Let the button handle this click
-      }
-      
-      // Process scroll wheel interaction
-      if (degrees > 45 && degrees < 135) {
-        onScroll('down');
-      } else if (degrees > 225 && degrees < 315) {
-        onScroll('up');
-      }
-    }
-  };
-
   return (
     <div className="absolute inset-0 pointer-events-none">
       {/* All buttons and interactive elements - invisible but functional */}

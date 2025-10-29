@@ -13,7 +13,7 @@ interface TestResult {
   algorithm: string;
   passed: boolean;
   details: string;
-  metrics?: Record<string, number>;
+  metrics?: Record<string, number | boolean>;
 }
 
 /**
@@ -376,7 +376,6 @@ export function runComprehensiveTests(): {
   
   // Generate test data
   const fibonacciPoints = generateFibonacciSphere(50, 300);
-  const uniformPoints = generateUniformSphere(50, 300);
   
   // Run all tests
   results.push(testMathematicalConstants());
@@ -402,7 +401,9 @@ export function runComprehensiveTests(): {
     
     if (result.metrics) {
       Object.entries(result.metrics).forEach(([key, value]) => {
-        console.log(`   ${key}: ${typeof value === 'number' ? value.toFixed(6) : value}`);
+        const formattedValue =
+          typeof value === 'number' ? value.toFixed(6) : String(value);
+        console.log(`   ${key}: ${formattedValue}`);
       });
     }
     console.log('');
@@ -455,10 +456,16 @@ export function compareDistributionAlgorithms(pointCount: number = 100): {
   // Test uniformity
   const fibUniformity = testDistributionUniformity(fibonacciPoints);
   const uniformUniformity = testDistributionUniformity(uniformPoints);
+  const fibCvValue = Number(
+    fibUniformity.metrics?.coefficientOfVariation ?? 0,
+  );
+  const uniformCvValue = Number(
+    uniformUniformity.metrics?.coefficientOfVariation ?? 0,
+  );
   
   // Determine recommendation
   let recommendation: string;
-  if (fibUniformity.metrics!.coefficientOfVariation < uniformUniformity.metrics!.coefficientOfVariation) {
+  if (fibCvValue < uniformCvValue) {
     recommendation = "Fibonacci distribution recommended: More uniform distribution with predictable performance";
   } else if (uniformTime < fibTime * 2) {
     recommendation = "Uniform distribution acceptable: Similar uniformity with reasonable performance";
@@ -468,8 +475,14 @@ export function compareDistributionAlgorithms(pointCount: number = 100): {
   
   console.log('📊 Distribution Comparison Results:');
   console.log('===================================');
-  console.log(`Fibonacci - CV: ${fibUniformity.metrics!.coefficientOfVariation.toFixed(4)}, Time: ${fibTime.toFixed(3)}ms`);
-  console.log(`Uniform   - CV: ${uniformUniformity.metrics!.coefficientOfVariation.toFixed(4)}, Time: ${uniformTime.toFixed(3)}ms`);
+  console.log(
+    `Fibonacci - CV: ${fibCvValue.toFixed(4)}, Time: ${fibTime.toFixed(3)}ms`,
+  );
+  console.log(
+    `Uniform   - CV: ${uniformCvValue.toFixed(4)}, Time: ${uniformTime.toFixed(
+      3,
+    )}ms`,
+  );
   console.log(`\n💡 ${recommendation}\n`);
   
   return {

@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react';
-import { motion } from 'framer-motion';
 import { AppIcon } from './AppIcon';
 import { ContextMenu } from './ContextMenu';
 import { DESKTOP_APPS, AppType } from '../types';

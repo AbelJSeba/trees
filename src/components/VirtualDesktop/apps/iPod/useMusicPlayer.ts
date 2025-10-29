@@ -117,8 +117,6 @@ export function useMusicPlayer() {
     navigationStack: [],
   });
 
-  const [albumArt, setAlbumArt] = useState<string | null>(null);
-
   // Generate theme menu items based on current theme (show only the opposite)
   const getThemeMenuItems = useCallback((currentTheme: 'light' | 'dark') => {
     if (currentTheme === 'light') {
@@ -135,48 +133,6 @@ export function useMusicPlayer() {
       themeMenuItems: getThemeMenuItems(prev.theme)
     }));
   }, [state.theme, getThemeMenuItems]);
-
-  // Function to extract album art from MP3 file
-  const extractAlbumArt = useCallback(async (audioUrl: string) => {
-    try {
-      const response = await fetch(audioUrl);
-      const arrayBuffer = await response.arrayBuffer();
-      
-      // For now, we'll rely on the audio element's built-in metadata
-      // and try to get the artwork from MediaMetadata API if available
-      if ('mediaSession' in navigator && audioRef.current) {
-        audioRef.current.addEventListener('loadedmetadata', () => {
-          // Try to get artwork from the audio element
-          if (audioRef.current && audioRef.current.src === audioUrl) {
-            // Check if the browser can extract artwork automatically
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            
-            // Since direct MP3 metadata extraction is complex in browser,
-            // we'll implement a fallback approach using a video element
-            // to potentially capture any embedded artwork
-            const video = document.createElement('video');
-            video.src = audioUrl;
-            video.preload = 'metadata';
-            
-            video.addEventListener('loadedmetadata', () => {
-              if (video.videoWidth > 0 && video.videoHeight > 0) {
-                // If there's video data (could be album art), capture it
-                canvas.width = 64;
-                canvas.height = 64;
-                ctx?.drawImage(video, 0, 0, 64, 64);
-                const dataUrl = canvas.toDataURL();
-                setAlbumArt(dataUrl);
-              }
-            });
-          }
-        });
-      }
-    } catch (error) {
-      console.log('Could not extract album art:', error);
-      setAlbumArt(null);
-    }
-  }, []);
 
   // Create audio element if it doesn't exist
   useEffect(() => {
@@ -354,11 +310,6 @@ export function useMusicPlayer() {
     });
   }, []);
 
-  // Smart play/pause that can work globally when music is playing
-  const smartPlayPause = useCallback(() => {
-    setState(prev => ({ ...prev, isPlaying: !prev.isPlaying }));
-  }, []);
-
   const toggleTheme = useCallback(() => {
     setState(prev => ({
       ...prev,
@@ -436,7 +387,6 @@ export function useMusicPlayer() {
 
   return {
     state,
-    albumArt,
     actions: {
       selectTrack,
       togglePlayPause,

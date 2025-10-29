@@ -21,7 +21,10 @@ export function ContextMenu({ x, y, onClose }: ContextMenuProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [onClose]);
 
-  const menuItems = [
+  const menuItems: Array<
+    | { label: string; action: () => void; divider?: false }
+    | { divider: true }
+  > = [
     { label: 'New Folder', action: () => console.log('New folder') },
     { label: 'Get Info', action: () => console.log('Get info') },
     { label: 'Change Desktop Background...', action: () => console.log('Change background') },
@@ -44,13 +47,13 @@ export function ContextMenu({ x, y, onClose }: ContextMenuProps) {
           top: y,
         }}
       >
-        {menuItems.map((item, index) => (
-          item.divider ? (
-            <div key={index} className="h-px bg-gray-200 my-1" />
+        {menuItems.map((item, index) =>
+          'divider' in item && item.divider ? (
+            <div key={`divider-${index}`} className="my-1 h-px bg-gray-200" />
           ) : (
             <button
-              key={index}
-              className="w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors"
+              key={item.label}
+              className="w-full px-4 py-1.5 text-left text-sm transition-colors hover:bg-blue-500 hover:text-white"
               onClick={() => {
                 item.action();
                 onClose();
@@ -58,8 +61,8 @@ export function ContextMenu({ x, y, onClose }: ContextMenuProps) {
             >
               {item.label}
             </button>
-          )
-        ))}
+          ),
+        )}
       </motion.div>
     </AnimatePresence>
   );

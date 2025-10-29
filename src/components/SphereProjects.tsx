@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
-import { Calendar, ExternalLink, Github, Globe, Sprout, TreePine, Leaf, Code2, RotateCw } from 'lucide-react';
+import { Calendar, Github, Globe, Sprout, TreePine, Leaf, Code2, RotateCw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Performance constants
@@ -294,16 +294,6 @@ function projectTo2D(point: SpherePoint, perspective: number): {
 }
 
 /**
- * Calculates distance between points for collision detection
- */
-function calculateDistance(p1: SpherePoint, p2: SpherePoint): number {
-  const dx = p1.x - p2.x;
-  const dy = p1.y - p2.y;
-  const dz = p1.z - p2.z;
-  return Math.sqrt(dx * dx + dy * dy + dz * dz);
-}
-
-/**
  * Optimized throttle function for performance
  */
 function useThrottledCallback<T extends (...args: any[]) => any>(
@@ -319,25 +309,6 @@ function useThrottledCallback<T extends (...args: any[]) => any>(
       return callback(...args);
     }
   }, [callback, delay]) as T;
-}
-
-/**
- * Debounced resize handler
- */
-function useDebounce<T>(value: T, delay: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
 }
 
 export function SphereProjects() {
@@ -364,7 +335,6 @@ export function SphereProjects() {
     lastTime: 0
   });
   
-  const [containerSize, setContainerSize] = useState({ width: 800, height: 600 });
   const [isVisible, setIsVisible] = useState(false);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [performanceMode, setPerformanceMode] = useState(false);
@@ -377,9 +347,6 @@ export function SphereProjects() {
     
     return distribution(sampleProjects.length, SPHERE_CONFIG.RADIUS);
   }, [sampleProjects.length]);
-  
-  // Debounced container size for resize performance
-  const debouncedSize = useDebounce(containerSize, PERFORMANCE_CONFIG.RESIZE_DEBOUNCE);
   
   // Intersection Observer for visibility optimization
   useEffect(() => {
@@ -400,28 +367,6 @@ export function SphereProjects() {
     }
     
     return () => observer.disconnect();
-  }, []);
-  
-  // Resize observer for responsive design
-  useEffect(() => {
-    const updateSize = () => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        setContainerSize({
-          width: rect.width,
-          height: rect.height
-        });
-      }
-    };
-    
-    updateSize();
-    
-    const resizeObserver = new ResizeObserver(updateSize);
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
-    
-    return () => resizeObserver.disconnect();
   }, []);
   
   // Touch and mouse event handlers with proper throttling

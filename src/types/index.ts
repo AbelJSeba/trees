@@ -17,6 +17,15 @@ export interface ReadingItem extends BaseContentItem {
   textColor: string;
 }
 
+export interface WritingItem extends BaseContentItem {
+  type: "essay" | "poetry";
+  content: string;
+}
+
+export interface ResearchItem extends BaseContentItem {
+  tags: string[];
+}
+
 
 
 // Component Props Types
@@ -27,6 +36,13 @@ export interface ContentSectionProps {
   emptyMessage: string;
 }
 
+export interface WritingSectionProps {
+  title: string;
+  description: string;
+  items: WritingItem[];
+  emptyMessage: string;
+  onItemClick: (item: WritingItem) => void;
+}
 
 export interface HeaderProps {
   activeSection: SectionType;
@@ -38,7 +54,13 @@ export interface HeroProps {
 }
 
 // Navigation Types
-export type SectionType = 'home' | 'about' | 'projects' | 'reading' | 'research';
+export type SectionType =
+  | "home"
+  | "about"
+  | "projects"
+  | "reading"
+  | "writing"
+  | "research";
 
 export interface NavItem {
   id: SectionType;
