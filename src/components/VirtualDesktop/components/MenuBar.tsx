@@ -6,11 +6,10 @@ interface MenuBarProps {
   activeApp: AppType | null;
   onWallpaperChange: (wallpaper: string) => void;
   onPowerAction: (action: 'sleep' | 'restart' | 'shutdown') => void;
-  onToggleHeader?: () => void;
-  headerVisible?: boolean;
+  onNavigateHome?: () => void;
 }
 
-export function MenuBar({ activeApp, onWallpaperChange, onPowerAction, onToggleHeader, headerVisible = false }: MenuBarProps) {
+export function MenuBar({ activeApp, onWallpaperChange, onPowerAction, onNavigateHome }: MenuBarProps) {
   const [time, setTime] = useState(new Date());
   const [showAppleMenu, setShowAppleMenu] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -44,7 +43,7 @@ export function MenuBar({ activeApp, onWallpaperChange, onPowerAction, onToggleH
 
   return (
     <>
-      <div className={`absolute ${headerVisible ? 'top-8' : 'top-0'} left-0 right-0 h-[39px] bg-black/80 backdrop-blur-xl flex items-center justify-between px-3 text-white text-sm z-[9999]`}>
+      <div className="absolute top-0 left-0 right-0 h-[39px] bg-black/80 backdrop-blur-xl flex items-center justify-between px-3 text-white text-sm z-[9999]">
       {/* Left side - Apple menu and app name */}
       <div className="flex items-center gap-4">
         <div className="relative">
@@ -121,12 +120,15 @@ export function MenuBar({ activeApp, onWallpaperChange, onPowerAction, onToggleH
         <span className="font-semibold">{getAppName()}</span>
         
         <div className="flex items-center gap-3 justify-center">
-          {onToggleHeader && (
+          {onNavigateHome && (
             <button 
               className="hover:bg-white/20 px-2 py-0.5 rounded transition-colors"
-              onClick={onToggleHeader}
+              onClick={() => {
+                setShowAppleMenu(false);
+                onNavigateHome();
+              }}
             >
-              Menu Bar
+              Home
             </button>
           )}
           <button className="hover:bg-white/20 px-2 py-0.5 rounded transition-colors">

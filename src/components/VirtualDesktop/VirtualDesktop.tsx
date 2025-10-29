@@ -8,11 +8,10 @@ import { useDesktopState } from './hooks/useDesktopState';
 import { AppType, WindowState } from './types';
 
 interface VirtualDesktopProps {
-  onToggleHeader?: () => void;
-  headerVisible?: boolean;
+  onNavigateHome?: () => void;
 }
 
-export function VirtualDesktop({ onToggleHeader, headerVisible = false }: VirtualDesktopProps) {
+export function VirtualDesktop({ onNavigateHome }: VirtualDesktopProps) {
   const { wallpaper, setWallpaper } = useDesktopState();
   const { windows, openWindow, closeWindow, focusWindow, updateWindowState } = useWindowManager();
   const [selectedApp, setSelectedApp] = useState<string | null>(null);
@@ -183,7 +182,6 @@ export function VirtualDesktop({ onToggleHeader, headerVisible = false }: Virtua
     <div 
       ref={desktopRef}
       className="relative w-full h-screen overflow-hidden bg-gray-900 select-none" 
-      style={{ paddingTop: headerVisible ? '32px' : '0' }}
       onWheel={handleWheel}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
@@ -200,8 +198,7 @@ export function VirtualDesktop({ onToggleHeader, headerVisible = false }: Virtua
         activeApp={windows.find(w => w.isActive)?.appType || null}
         onWallpaperChange={setWallpaper}
         onPowerAction={handlePowerAction}
-        onToggleHeader={onToggleHeader}
-        headerVisible={headerVisible}
+        onNavigateHome={onNavigateHome}
       />
       
       {/* Desktop */}

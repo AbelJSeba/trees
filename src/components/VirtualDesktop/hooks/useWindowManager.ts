@@ -12,6 +12,8 @@ const getDefaultWindowProps = (appType: AppType): Partial<WindowState> => {
       return { title: 'Photos', width: 640, height: 480 };
     case 'Files':
       return { title: 'Projects', width: 800, height: 600 };
+    case 'TextEdit':
+      return { title: 'Documents', width: 980, height: 680 };
     default:
       return { title: 'Window', width: 600, height: 400 };
   }

@@ -1,5 +1,5 @@
-declare module 'florasynth' {
-  import * as THREE from 'three';
+declare module "florasynth" {
+  import * as THREE from "three";
 
   export interface TreeMeshes {
     mesh: THREE.Mesh | null;
@@ -28,12 +28,16 @@ declare module 'florasynth' {
   export class Tree {
     constructor(properties: Properties | any);
     generate(): Promise<TreeMeshes>;
-    static applyTextures(meshes: TreeMeshes, textures: TextureMap): Promise<void>;
+    static applyTextures(
+      meshes: TreeMeshes,
+      textures: TextureMap,
+    ): Promise<void>;
     static applyAtlases(meshes: TreeMeshes, atlases: any): Promise<THREE.Mesh>;
   }
 
   export namespace Presets {
     export const ASH: any;
+    export const ELM: any;
     export const OAK: any;
     export const PINE: any;
   }

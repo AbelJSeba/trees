@@ -1,32 +1,15 @@
 import { useState } from 'react';
+import { PROJECT_DOCUMENTS, ProjectDocument } from '../../../../data/projectDocuments';
 
 type SortKey = 'name' | 'date' | 'size' | 'kind';
 type SortDirection = 'asc' | 'desc';
-
-interface ProjectItem {
-  name: string;
-  date: string;
-  size: 'Small' | 'Medium' | 'Large';
-  kind: string;
-}
 
 export function Files() {
   const [sortKey, setSortKey] = useState<SortKey>('name');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
-  const projects: ProjectItem[] = [
-    { name: 'Portfolio Website', date: 'Dec 15, 2024', size: 'Large', kind: 'Web Development' },
-    { name: 'Weather App', date: 'Nov 28, 2024', size: 'Small', kind: 'Mobile Apps' },
-    { name: 'E-commerce Platform', date: 'Nov 10, 2024', size: 'Large', kind: 'Web Development' },
-    { name: 'Task Manager', date: 'Oct 22, 2024', size: 'Medium', kind: 'Mobile Apps' },
-    { name: 'Brand Identity System', date: 'Oct 5, 2024', size: 'Medium', kind: 'Design' },
-    { name: 'Neural Network Visualizer', date: 'Sep 18, 2024', size: 'Large', kind: 'AI/ML Projects' },
-    { name: 'Open Source CLI Tool', date: 'Sep 3, 2024', size: 'Small', kind: 'Open Source' },
-    { name: 'Data Analysis Dashboard', date: 'Aug 20, 2024', size: 'Medium', kind: 'Research' },
-    { name: 'Mobile Game', date: 'Aug 5, 2024', size: 'Large', kind: 'Mobile Apps' },
-    { name: 'UI Component Library', date: 'Jul 25, 2024', size: 'Medium', kind: 'Open Source' },
-  ];
+  const projects: ProjectDocument[] = PROJECT_DOCUMENTS;
 
   const handleSort = (key: SortKey) => {
     if (sortKey === key) {
@@ -198,14 +181,19 @@ export function Files() {
                   }
                 `}
               >
-                <div className="flex-1 px-3 flex items-center gap-2">
+                <div className="flex-1 px-3 flex items-center gap-2 whitespace-nowrap overflow-hidden">
                   <img 
-                    src="/icons/folder.svg" 
+                    src="/icons/document.svg" 
                     width="16" 
                     height="16" 
-                    alt="Folder"
+                    alt="Document"
                   />
-                  <span className={selectedItem === project.name ? 'text-white' : 'text-[#1d1d1f]'}>
+                  <span
+                    className={`
+                      ${selectedItem === project.name ? 'text-white' : 'text-[#1d1d1f]'}
+                      truncate
+                    `}
+                  >
                     {project.name}
                   </span>
                 </div>

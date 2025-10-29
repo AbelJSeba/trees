@@ -238,5 +238,33 @@ export const BOOKS: ReadingItem[] = [
     coverImage: 'https://m.media-amazon.com/images/I/613Jhj+HirL._SY522_.jpg',
     spineColor: '#1F3E6C',
     textColor: '#ffffff'
+  },
+  {
+    id: '18',
+    title: 'Defiance of the Fall (Books 1-15)',
+    author: 'J.F. Brink (TheFirstDefier)',
+    description: 'Read all 15 books of Defiance of the Fall—fun LitRPG story.',
+    date: '2025',
+    readTime: '14 min read',
+    rating: 9,
+    tags: ['litrpg', 'progression-fantasy', 'series', 'cultivation'],
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop&auto=format',
+    coverImage: '/images/defianceofthefall.jpg',
+    spineColor: '#1B2334',
+    textColor: '#ffffff'
+  },
+  {
+    id: '19',
+    title: 'Unsouled (Cradle: Volume One)',
+    author: 'Will Wight',
+    description: 'There are a million paths in this world but they can all be reduced to one: improve yourself.',
+    date: '2024',
+    readTime: '9 min read',
+    rating: 9,
+    tags: ['progression-fantasy', 'litrpg', 'cultivation'],
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop&auto=format',
+    coverImage: '/images/cradle-unsouled.jpg',
+    spineColor: '#7C1F1F',
+    textColor: '#ffffff'
   }
 ];

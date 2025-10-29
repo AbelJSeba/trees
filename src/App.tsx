@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Header } from './components/sections/Header';
 import { Hero } from './components/sections/Hero';
 import { About } from './components/sections/About';
 import { CreationsPage } from './components/sections/CreationsPage';
 import { ReadingGarden } from './components/sections/ReadingGarden';
+import { ResearchSection } from './components/sections/ResearchSection';
 import { Footer } from './components/sections/Footer';
+import { ConstructionBanner } from './components/sections/ConstructionBanner';
 
 import { SectionType } from './types';
 import { BOOKS } from './data';
@@ -12,23 +14,9 @@ import { BOOKS } from './data';
 export default function App() {
   const [activeSection, setActiveSection] = useState<SectionType>('home');
   const [readingNavigationKey, setReadingNavigationKey] = useState(0);
-  const [headerVisible, setHeaderVisible] = useState<boolean>(false);
-  
-  const handleHeaderToggle = (visible: boolean) => {
-    setHeaderVisible(visible);
-  };
-  const [lastScrollY, setLastScrollY] = useState(0);
 
   const handleSectionChange = (section: string) => {
     setActiveSection(section as SectionType);
-    
-    // Set header visibility based on section
-    // When entering projects for the first time, hide header. When already in projects, preserve current state
-    if (section === 'projects' && activeSection !== 'projects') {
-      setHeaderVisible(false);
-    } else if (section !== 'projects') {
-      setHeaderVisible(true);
-    }
     
     // Increment key when navigating to reading to reset component state
     if (section === 'reading') {
@@ -36,8 +24,8 @@ export default function App() {
     }
   };
 
-  const toggleHeader = () => {
-    setHeaderVisible(!headerVisible);
+  const handleNavigateHome = () => {
+    handleSectionChange('home');
   };
 
   const renderContent = () => {
@@ -51,7 +39,7 @@ export default function App() {
           </div>
         );
       case 'projects':
-        return <CreationsPage onHeaderToggle={handleHeaderToggle} headerVisible={headerVisible} />;
+        return <CreationsPage onNavigateHome={handleNavigateHome} />;
       case 'reading':
         return (
           <div className="pt-16">
@@ -64,6 +52,8 @@ export default function App() {
             />
           </div>
         );
+      case 'research':
+        return <ResearchSection />;
       default:
         return <Hero onSectionChange={handleSectionChange} />;
     }
@@ -71,17 +61,21 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {(activeSection !== 'projects' || headerVisible) && (
+      {activeSection !== 'projects' && (
         <Header 
           activeSection={activeSection} 
           onSectionChange={handleSectionChange}
-          visible={headerVisible || activeSection !== 'projects'}
         />
       )}
       <main className="flex-1">
         {renderContent()}
       </main>
-      {activeSection !== 'projects' && <Footer />}
+      {activeSection !== 'projects' && (
+        <>
+          <ConstructionBanner />
+          <Footer />
+        </>
+      )}
     </div>
   );
 }

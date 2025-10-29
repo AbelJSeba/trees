@@ -1,120 +1,189 @@
-import { Card } from '../ui/card';
-import { Badge } from '../ui/badge';
-import { Calendar, FlaskConical } from 'lucide-react';
-import { ResearchItem } from '../../types';
-import { motion } from 'framer-motion';
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-interface ResearchSectionProps {
-  title: string;
-  description: string;
-  items: ResearchItem[];
-  emptyMessage: string;
-}
+const simulationImages = [
+  {
+    src: "/images/c1.jpg",
+    title: "ADAS vision kernels",
+    summary:
+      "Vision pipeline operators run 7–9× faster thanks to dense CGRA dataflow scheduling.",
+  },
+  {
+    src: "/images/c2.jpg",
+    title: "Robotics workloads",
+    summary:
+      "Real-time SLAM, planning, and control stages sustain 3–9× gains, keeping latency under budget.",
+  },
+  {
+    src: "/images/c3.jpg",
+    title: "Compression & crypto",
+    summary:
+      "Batch encryption, FFT, and bundle adjustment retain 3–8× headroom for non-vision tasks.",
+  },
+  {
+    src: "/images/c4.jpg",
+    title: "Tile scaling cost",
+    summary:
+      "Area scales nearly linearly; 64 tiles stay <600 mm² while hitting multi-kilo-token throughput.",
+  },
+];
 
-export function ResearchSection({ title, description, items, emptyMessage }: ResearchSectionProps) {
+export function ResearchSection() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  const closeOverlay = useCallback(() => setActiveIndex(null), []);
+  const showPrevious = useCallback(
+    () =>
+      setActiveIndex((current) =>
+        current === null
+          ? null
+          : (current + simulationImages.length - 1) % simulationImages.length,
+      ),
+    [],
+  );
+  const showNext = useCallback(
+    () =>
+      setActiveIndex((current) =>
+        current === null ? null : (current + 1) % simulationImages.length,
+      ),
+    [],
+  );
+
+  useEffect(() => {
+    if (activeIndex === null) {
+      return;
+    }
+
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeOverlay();
+      } else if (event.key === "ArrowRight") {
+        showNext();
+      } else if (event.key === "ArrowLeft") {
+        showPrevious();
+      }
+    };
+
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [activeIndex, showNext, showPrevious, closeOverlay]);
+
+  const activeImage = useMemo(
+    () => (activeIndex === null ? null : simulationImages[activeIndex]),
+    [activeIndex],
+  );
+
   return (
-    <section className="min-h-screen py-20">
+    <section className="min-h-screen bg-background pt-28 pb-20">
       <div className="container px-4 md:px-6">
-        <div className="max-w-6xl mx-auto">
-          {/* Header */}
-          <motion.div 
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="text-4xl md:text-5xl font-medium text-accent mb-4">
-              {title}
+        <div className="mx-auto flex max-w-5xl flex-col gap-12">
+          <header className="space-y-2">
+            <h1 className="text-3xl font-semibold text-foreground md:text-4xl">
+              Research
             </h1>
-            <p className="text-lg text-muted-foreground mx-auto">
-              {description}
+          </header>
+
+          <div className="space-y-6 text-left text-base leading-relaxed text-muted-foreground md:text-lg">
+            <p>
+              Working on ATLAS (Adaptive Toolchain with Learned Architecture
+              Selection). In simple terms, every program passes through an
+              intermediate representation inside the compiler before it runs. We
+              intercept that IR, expose it to the full map of available
+              accelerators, and combine compiler analysis with learned policies
+              so each workload is scheduled onto the best mix of chips. When a
+              workload benefits from it, ATLAS even emits fresh kernels at
+              runtime to match the hardware exactly. The graphs below show
+              current results from a cycle-accurate RTL simulation of our
+              design.
             </p>
-          </motion.div>
+          </div>
 
-          {/* Research Items Grid */}
-          {items.length > 0 ? (
-            <div className="space-y-8">
-              {items.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+          <div className="flex flex-col gap-8">
+            <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground text-center">
+              Early results from cycle accurate RTL simulation
+            </p>
+
+            <div className="flex flex-col gap-10">
+              {simulationImages.map((image, index) => (
+                <article
+                  key={image.src}
+                  className="overflow-hidden rounded-2xl border border-border/40 bg-card/70 shadow-sm transition-shadow duration-200 hover:shadow-xl hover:shadow-accent/10"
                 >
-                  <Card className="group relative overflow-hidden border-border/50 hover:border-accent/30 hover:shadow-xl hover:shadow-accent/5 transition-all duration-300 bg-card/50 hover:bg-card cursor-pointer">
-
-                    <div className="relative p-6">
-                      {/* Title */}
-                      <h3 className="text-xl font-medium text-accent group-hover:opacity-80 transition-opacity duration-300 mb-2">
-                        {item.title}
+                  <button
+                    type="button"
+                    onClick={() => setActiveIndex(index)}
+                    className="flex w-full flex-col text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+                  >
+                    <img
+                      src={image.src}
+                      alt={`ATLAS simulation result chart for ${image.title}`}
+                      loading="lazy"
+                      className="h-auto w-full object-cover"
+                    />
+                    <div className="flex flex-col gap-3 px-6 py-5 md:px-8 md:py-6">
+                      <h3 className="text-lg font-semibold text-foreground capitalize">
+                        {image.title}
                       </h3>
-                      
-                      {/* Date */}
-                      <div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-3">
-                        <Calendar className="h-3.5 w-3.5" />
-                        <span>{item.date}</span>
-                      </div>
-
-                      {/* Description */}
-                      <p className="text-muted-foreground mb-4">
-                        {item.description}
+                      <p className="text-muted-foreground text-base">
+                        {image.summary}
                       </p>
-
-                      {/* Bottom Row: Status Badge, Tags, and Read Time */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          {/* Research Badge */}
-                          <Badge 
-                            variant="outline" 
-                            className="flex items-center gap-1.5 text-xs border-accent/30 bg-accent/5 text-accent px-2.5 py-1"
-                          >
-                            <FlaskConical className="w-3 h-3" />
-                            Computer Architecture
-                          </Badge>
-
-                          {/* Tags */}
-                          {item.tags && item.tags.length > 0 && (
-                            <div className="flex items-center gap-2">
-                              {item.tags.slice(0, 3).map((tag) => (
-                                <Badge 
-                                  key={tag} 
-                                  variant="secondary" 
-                                  className="text-xs px-2 py-0.5"
-                                >
-                                  {tag}
-                                </Badge>
-                              ))}
-                              {item.tags.length > 3 && (
-                                <Badge variant="secondary" className="text-xs px-2 py-0.5">
-                                  +{item.tags.length - 3}
-                                </Badge>
-                              )}
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Read Time */}
-                        <span className="text-sm text-muted-foreground">
-                          {item.readTime}
-                        </span>
-                      </div>
+                      <span className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-accent">
+                        Open full graph
+                        <span aria-hidden="true">→</span>
+                      </span>
                     </div>
-                  </Card>
-                </motion.div>
+                  </button>
+                </article>
               ))}
             </div>
-          ) : (
-            <div className="text-center py-16">
-              <div className="mb-4 text-muted-foreground">
-                🔬
-              </div>
-              <p className="text-muted-foreground">
-                {emptyMessage}
-              </p>
-            </div>
-          )}
+          </div>
         </div>
       </div>
+
+      {activeImage && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 p-6"
+          onClick={closeOverlay}
+        >
+          <div
+            className="relative max-h-full max-w-5xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={closeOverlay}
+              className="absolute right-2 top-2 rounded-full bg-black/60 px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-black/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              onClick={showPrevious}
+              className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-3 text-white transition-colors hover:bg-black/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+              aria-label="Previous image"
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              onClick={showNext}
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-3 text-white transition-colors hover:bg-black/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+              aria-label="Next image"
+            >
+              ›
+            </button>
+            <img
+              src={activeImage.src}
+              alt="ATLAS simulation result chart enlarged"
+              className="max-h-[80vh] w-auto rounded-lg border border-border/40 bg-background object-contain"
+            />
+            <p className="mt-4 text-center text-sm text-muted-foreground">
+              {activeImage.summary}
+            </p>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
